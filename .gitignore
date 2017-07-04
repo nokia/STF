@@ -1,0 +1,12 @@
+*~
+.project
+.pydevproject
+*.pyc
+.settings
+build
+test-reports
+internalunittest-reports
+log
+dist
+*.egg-info
+testcase_reports

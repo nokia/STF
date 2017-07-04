@@ -1,0 +1,4 @@
+DFT/upload_files/raw_msg  -> :$LAB_HOUSE_DIR
+DFT/upload_files/testapp  -> :$LAB_HOUSE_DIR
+DFT/upload_files/results  -> :$LAB_HOUSE_DIR
+DFT/upload_files/artifactory.repo -> :/etc/yum.repos.d/

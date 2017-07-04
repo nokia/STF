@@ -1,0 +1,14 @@
+#!/bin/bash
+
+testappDir=$LAB_HOUSE_DIR/testapp/
+resultsDir=$LAB_HOUSE_DIR/results/
+decodedAppd=.msg.raw.json
+rr=RR
+
+num=fs0369
+diff ${testappDir}${num}${decodedAppd} ${resultsDir}${num}${decodedAppd}
+[ $? -ne 0 ] && exit 1
+diff ${testappDir}${num}${rr}${decodedAppd} ${resultsDir}${num}${rr}${decodedAppd}
+[ $? -ne 0 ] && exit 1
+
+exit 0

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function installRPM {
+    yum -y install CSF-SS7DECODER-devel
+}
+
+function compileSPA {
+    cd $LAB_HOUSE_DIR/testapp
+    make clean
+    make all
+}
+
+function decodeMsg {
+    cd $LAB_HOUSE_DIR/testapp
+    cp $LAB_HOUSE_DIR/raw_msg/* ./
+    python conv.py
+    export LD_LIBRARY_PATH=$(pwd)
+    ./ss7decoderapp -r 10 -t 3 -n 100 -d &
+
+    sleep 5
+    for id in $(pgrep ss7decoderapp); do
+        kill -9 $id
+    done
+}
+
+function compareResults { 
+    echo "parameter $#"
+    return 1
+}
+
+installRPM
+compileSPA
+decodeMsg

@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+#put stf in /usr/lib/python2.7/dist-packages/STF
+# or export PYTHONPATH
+
+
+import os
+import argparse
+import sys
+try:
+    from stf.lib.stf_utils import *
+except Exception:
+    stf_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+    if not stf_path in sys.path:
+        sys.path.insert(1, stf_path)
+    from stf.lib.stf_utils import *
+
+from stf.managers.plugin_manager import PluginManager
+from stf.managers.module_manager import ModuleManager
+from stf.managers.view_manager import ViewManager
+from stf.managers import test_case_manager
+
+
+def main():
+    if len(sys.argv) < 3:
+        errorAndExit('Missing parameters! \nUsage: stf <view> <parameters>')
+
+    parser = argparse.ArgumentParser(prog='stf %s' % sys.argv[1], description='A Simple Test Framework.')
+
+    plugin_manager = PluginManager()
+    module_manager = ModuleManager(plugin_manager)
+    view_manager = ViewManager(module_manager)
+    test_case_manager.init(module_manager)
+
+    #begin to get the view name, e.g. test, deploy
+    view = view_manager.getInstance(sys.argv[1])
+    if view is None:
+        errorAndExit('View %s not available' % sys.argv[1])
+
+    #regular view call sequence
+    view.parseArguments(parser, sys.argv[2:])
+    view.preCheck()
+    view.run()
+
+if __name__ == '__main__':
+    main()

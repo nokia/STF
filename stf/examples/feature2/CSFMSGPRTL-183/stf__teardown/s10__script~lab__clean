@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd $LAB_HOUSE_DIR
+rm -rf testapp
+rm -rf raw_msg
+rm -rf results
+yum -y erase CSF-SS7DECODER-devel

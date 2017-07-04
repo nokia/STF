@@ -1,0 +1,23 @@
+#!/bin/bash
+function error
+{
+    echo "Error! $1"
+    exit 1
+}
+function checkRC
+{
+    rc=$1
+    running=$2
+    if [ $rc -ne 0 ];then
+        error "$running failed with return value: $rc"
+    fi
+}
+function testPort
+{
+    timeout 1 cat </dev/null >/dev/tcp/localhost/$1
+    if [ $? -eq 0 ];then
+        error "$2 $1 is occupied..."
+    fi
+}
+
+echo "Schema registry port"

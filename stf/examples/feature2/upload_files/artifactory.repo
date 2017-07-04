@@ -1,0 +1,8 @@
+[Artifactory]
+name=Artifactory
+baseurl=http://repo.lab.pl.alcatel-lucent.com/CSF-Inprogress
+enabled=1
+gpgcheck=0
+#Optional - if you have GPG signing keys installed, use the below flags to verify the repository metadata signature:
+#gpgkey=https://<URL_ENCODED_USERNAME>:<PASSWORD>@repo.lab.pl.alcatel-lucent.com/artifactory/CSF-Inprogress/<PATH_TO_REPODATA_FOLDER>/repomd.xml.key
+#repo_gpgcheck=1

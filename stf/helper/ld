@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "$0 is specified by STF as the customized ld"
+export PATH=${PATH#*:}
+ld -g -O0 --coverage $@

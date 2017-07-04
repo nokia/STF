@@ -1,0 +1,21 @@
+#!/bin/bash
+function error
+{
+    echo "Error! $1"
+    exit 1
+}
+function checkRC
+{
+    rc=$1
+    running=$2
+    if [ $rc -ne 0 ];then
+        error "$running failed with return value: $rc"
+    fi
+}
+function genReport
+{
+    echo "__STF__:$1=$2"
+}
+
+genReport CSFTST-33 Pass
+exit 1

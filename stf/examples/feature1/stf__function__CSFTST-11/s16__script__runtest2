@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "I am running $0 with $(id) on $(hostname)"
+echo "hello, $gemfield" >/tmp/gemfield11

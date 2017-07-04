@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "$0 is specified by STF as the customized g++"
+export PATH=${PATH#*:}
+g++ -g -O0 --coverage $@
