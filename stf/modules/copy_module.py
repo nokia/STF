@@ -19,54 +19,10 @@ class STFCopyModule(STFBaseModule):
         self.jumphost = None
 
     def checkMode(self, mode):
-        """
-        TBD
-        """
         pass
     
     def checkModeParameter(self, parameter):
-        """
-        TBD
-        """
         pass
-    
-    def getlabs(self, lab_info):
-        if lab_info:
-            nodeName = lab_info.split("@")[1]
-            userName = lab_info.split("@")[0]
-            
-            labs = self.variable.getLabInfo(nodeName, userName)
-            if not labs:
-                logger.error("there is no lab for %s  as %s" % (nodeName, userName))
-                raise STFCopyModuleError("there is no lab for %s  as %s" % (nodeName, userName))
-            return labs  
-    
-    def getlabdetailInfo(self,lab):
-        account = lab.user
-        passwd = lab.password
-        ip = lab.IP
-        becomeUser = lab.become_user
-        becomePW = lab.become_password
-        return account, passwd, ip, becomeUser, becomePW
-        
-    def checkLabs(self, labs):
-        for lab in labs:
-            account = lab.user
-            passwd = lab.password
-            ip = lab.IP
-            becomeUser = lab.become_user
-            becomePW = lab.become_password
-            try:
-                if not becomeUser:
-                    self.sshManager.getClient(ip, user=account, pw=passwd)
-                else:
-                    self.sshManager.getClient(ip, account, passwd, becomeUser, becomePW)
-            except BaseException, msg:
-                 errorMsg = "cannot access to %s as user %s:%s, error msg is %s" % (ip, account, passwd, str(msg))
-                 logger.error(errorMsg)
-                 raise STFCopyModuleError(errorMsg)
-            else:
-                 raise STFCopyModuleError("not support jump host now")
 
     def checkModule(self, module):
         if module == 'copy':
@@ -86,19 +42,33 @@ class STFCopyModule(STFBaseModule):
             logger.error("not support jump host now")
             raise STFCopyModuleError("not support jump host now")
 
-        if self.lab:
-            labs = self.getlabs(self.lab)
-            for lab in labs:
-                account, passwd,ip,becomeUser,becomePW = self.getlabdetailInfo(lab)
-                try:
-                    if not becomeUser:
-                        self.sshManager.getClient(ip, user=account, pw=passwd)
-                    else:
-                        self.sshManage(ip, account, passwd, becomeUser, becomePW)
-                except BaseException, msg:
-                     errorMsg = "cannot access to %s as user %s:%s, error msg is %s" % (ip, account, passwd, str(msg))
-                     logger.error(errorMsg)
-                     raise STFCopyModuleError(errorMsg)
+        #vlab is dynamically created, so return here
+        node_id = self.lab
+        if '@' in self.lab:
+            node_id = self.lab.split("@")[1]
+
+        if self.variable.isVlabValid(node_id):
+            return
+
+        if self.lab is None:
+            return
+
+        userName, nodeName = self.lab.split("@")
+        labs = self.variable.getLabInfo(nodeName, userName)
+        if not labs:
+            logger.error("there is no lab for %s  as %s" % (nodeName, userName))
+            raise Exception("there is no lab for %s  as %s" % (nodeName, userName))
+
+        for lab in labs:
+            try:
+                if not lab.become_user:
+                    self.sshManager.getClient(lab.IP, user=lab.user, pw=lab.password)
+                else:
+                    self.sshManager.getClient(lab.IP, lab.user, lab.password, lab.become_user, lab.become_password)
+            except BaseException, msg:
+                 errorMsg = "cannot access to %s as user %s:%s, error msg is %s" % (lab.IP, lab.user, lab.password, str(msg))
+                 logger.error(errorMsg)
+                 raise STFCopyModuleError(errorMsg)
        
     def checkTags(self, tags):
         pass
@@ -106,7 +76,7 @@ class STFCopyModule(STFBaseModule):
     def checkTmsIDs(self, cases):
         pass
     
-    def checkOthers(self, f):
+    def checkOthers(self, test_step):
         pass
     
     def copyLocal(self, src, dst):
@@ -180,11 +150,7 @@ class STFCopyModule(STFBaseModule):
         file = open(caseFileLocation)
 
         #initialize env
-        env_cache = []
-        for e in self.variable.options('Env'):
-            if e not in os.environ:
-                os.environ[e] = self.variable.getEnv(e)
-                env_cache.append(e)
+        self.setEnvLocal()
 
         for line in file:
             logger.debug("line in file is %s", line)
@@ -207,22 +173,23 @@ class STFCopyModule(STFBaseModule):
 
             if not self.lab and cpmode == "Local":
                     logger.debug("copy in local, src is %s, dst is %s", src, dst)
-                    self.processStart(caseInfo, 0)
                     tp.exitcode, tp.stdout, tp.stderr = self.copyLocal(src, dst)
                     logger.debug("run copy %s  return code is %s, output is %s", caseFileName, tp.exitcode, tp.stdout)
             elif self.lab and  cpmode == "Upload" or cpmode == "Download":
-                for lab in self.getlabs(self.lab):
-                    account, passwd,ip,becomeUser,becomePW = self.getlabdetailInfo(lab)
-                    tp.exitcode, tp.stdout, tp.stderr = self.copyremote(src, dst, ip, account, passwd, cpmode)
+                userName, nodeName = self.lab.split("@")
+                labs = self.variable.getLabInfo(nodeName, userName)
+                if not labs:
+                    logger.error("there is no lab for %s  as %s" % (nodeName, userName))
+                    raise Exception("there is no lab for %s  as %s" % (nodeName, userName))
+
+                for lab in labs:
+                    tp.exitcode, tp.stdout, tp.stderr = self.copyremote(src, dst, lab.IP, lab.user, lab.password, cpmode)
             else:
                 logger.error("copy moudule error, lab in case file name not coordinate with case content")
-                for e in env_cache:
-                    del os.environ[e]
-
+                self.clearEnvLocal()
                 raise STFCopyModuleError("copy moudule error, lab in case file name not coherent with case content")
-                
-        for e in env_cache:
-            del os.environ[e]
+
+            self.clearEnvLocal()
 
         tp.endtime = time.time()
     

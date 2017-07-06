@@ -12,6 +12,25 @@ from stf.lib.logging.logger import Logger
 logger = Logger.getLogger(__name__)
 
 IP_POOL = 'Deploy:IP:Dynamic'
+
+class Vhost(object):
+    def __init__(self, vhost_name):
+        self.name = vhost_name
+        self.login = None
+        self.IP = None
+
+class Vlab(object):
+    def __init__(self, vlab_name):
+        self.name = vlab_name
+        self.vhosts = {}
+
+    def addVhost(self, vhost_ins):
+        if vhost_ins.name in self.vhosts:
+            return
+
+        self.vhosts[vhost_ins.name] = vhost_ins
+
+
 class Lab(object):
     def __init__(self, variable, lab):
         self.name = lab
@@ -167,6 +186,7 @@ class STFVariablePlugin(STFBasePlugin):
         self.global_lifetime_env = {}
         self.pipeline = None
         self.test_sec = 'Test'
+        self.vlab = {}
 
     def init(self, ini_file, pipeline=None, section=None):
         if ini_file is None:
@@ -483,14 +503,17 @@ class STFVariablePlugin(STFBasePlugin):
     def getLabInfo(self, node_id, account_id):
         if node_id is None:
             raise Exception('1st parameter missing when calling getLabInfo(node_id, account_id)')
+        # first to check whether it is a vlab
+        vlab_list = self.getVhostList(node_id, account_id)
+        if vlab_list:
+            return vlab_list
 
-        if account_id is None:
-            account_id = 'user'
-
+        #2nd to check whether we should get them from Env
         lab_list = self.getTestValueAsList(node_id)
         if lab_list is None:
             return self.getLabInfoFromEnv(node_id, account_id)
 
+        #3rd to check whether we should get them from Deploy:Vlab
         lab_info_list = []
         try:
             for lab in lab_list:
@@ -514,6 +537,9 @@ class STFVariablePlugin(STFBasePlugin):
         return lab_info_list
 
     def getLabInfoFromEnv(self, node_id, account_id):
+        if account_id is None:
+            account_id = 'user'
+
         lab_info_list = []
         lab_info = LabInfo()
         lab_info.setAccount(self.getEnv(account_id))
@@ -521,3 +547,45 @@ class STFVariablePlugin(STFBasePlugin):
         lab_info.setIP(self.getEnv(node_id))
         lab_info_list.append(lab_info)
         return lab_info_list
+
+    #vlab will use this API
+    def getVhostList(self, vlab_name, account_id):
+        if vlab_name not in self.vlab:
+            return None
+
+        lab_info_list = []
+        vlab_ins = self.vlab[vlab_name]
+        if vlab_ins is None:
+            return None
+
+        for k in vlab_ins.vhosts:
+            lab_info = LabInfo()
+            lab_info.setAccount(k.login)
+            lab_info.setIP(k.IP)
+            lab_info_list.append(lab_info)
+
+        return lab_info_list
+
+    def createVlab(self, vlab_name):
+        if vlab_name in self.vlab:
+            return
+
+        lab_ins = Vlab(vlab_name)
+        self.vlab[vlab_name] = None
+
+    def createAndAddVhost(self, vlab_list, name, login, IP):
+        host_ins = Vhost(name)
+        host_ins.login = login
+        host_ins.IP = IP
+
+        for lab in vlab_list:
+            lab.addVhost(host_ins)
+
+
+    def isVlabValid(self, vlab_name):
+        if vlab_name in self.vlab:
+            return True
+
+        return False
+
+

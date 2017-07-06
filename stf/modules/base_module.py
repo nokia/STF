@@ -32,7 +32,6 @@ class STFBaseModule(object):
         self.env_cache = []
         self.plugins = plugins
         self.variable = plugins.getInstance("variable")
-        self.processPlugin = plugins.getInstance("process")
         self.sshPlugin = plugins.getInstance("ssh")
         self.sshManager = self.sshPlugin.sshManager
         
@@ -92,7 +91,7 @@ class STFBaseModule(object):
             self.checkTags(test_step.step_tags)
         if test_step.tms_ids:
             self.checkTmsIDs(test_step.tms_ids)
-        self.checkOthers(test_step.path)
+        self.checkOthers(test_step)
 
     @abstractmethod
     def runStep(self, test_step):

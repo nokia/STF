@@ -20,12 +20,9 @@ class STFReportPlugin(STFBasePlugin):
         self.case_status = {}
         self.mode = 'local'
         self.const_status = {'PASS': 'PASS', 'pass': 'PASS', 'Pass': 'PASS', 'FAIL': 'FAIL', 'Fail': 'FAIL', 'fail': 'FAIL' }
-        self.process = None
 
     def init(self):
         try:
-            self.process = self.plugins.getInstance('process')
-
             if self.plugins.getInstance('variable').parser is None:
                 self.mode = 'local'
                 logger.warning('Will not get and push info to test case management system since you did not provide ini file')

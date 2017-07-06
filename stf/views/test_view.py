@@ -39,8 +39,6 @@ class STFTestView(STFBaseView):
         # initialize tms here, _findTests has dependency on this
         self.report = self.plugins.getInstance('report')
         self.report.init()
-        # initialize process plugin before call _findTests
-        self.process = self.plugins.getInstance('process')
         self._findTests()
 
         for case_suite in self.report.case_suite_list:

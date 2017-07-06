@@ -15,15 +15,13 @@ MAX_PID_NUM = 32769
 modules = None
 plugins = None
 variables = None
-process = None
 report = None
 
 def init(module_manager):
-    global modules, plugins, variables, process, report
+    global modules, plugins, variables, report
     modules = module_manager
     plugins = modules.getPluginManager()
     variables = plugins.getInstance('variable')
-    process = plugins.getInstance('process')
     report = plugins.getInstance('report')
 
 class TestSuite(object):

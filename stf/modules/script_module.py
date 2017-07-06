@@ -47,6 +47,10 @@ class STFScriptModule(STFBaseModule):
         if self.jumphost:
             raise Exception('not support jump host now')
 
+        #vlab is dynamically created, so return here
+        if self.variable.isVlabValid(self.lab):
+            return
+
         labs = self.sshPlugin.getLabList(self.lab)
         if not labs:
             logger.error("there is no such lab %s", self.lab)
@@ -60,12 +64,12 @@ class STFScriptModule(STFBaseModule):
     def checkTags(self, tags):
         pass
 
-    def checkOthers(self, filePath):
-        if os.access(filePath, X_OK):
+    def checkOthers(self, test_step):
+        if os.access(test_step.path, X_OK):
             return
 
-        logger.debug("add +x for %s", filePath)
-        command = "chmod +x " + filePath
+        logger.debug("add +x for %s", test_step.path)
+        command = "chmod +x " + test_step.path
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         outs, errs = proc.communicate()
         rc = proc.returncode
