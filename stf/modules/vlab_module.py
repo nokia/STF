@@ -13,8 +13,7 @@ from stf.lib.stf_utils import *
 from novaclient import client as nova_client
 from keystoneauth1 import loading
 from keystoneauth1 import session
-from openstackclient.common import clientmanager
-from neutronclient.v2_0 import client as neutronclient
+#from neutronclient.v2_0 import client as neutronclient
 
 logger = Logger.getLogger(__name__)
 
@@ -121,11 +120,10 @@ class STFVlabModule(STFBaseModule):
         #check whether server alreay existed
         existed_server_list = []
         for l in self.nova.servers.list():
-            self.existed_instances[l.name] = l.id
+            self.existed_instances[l.id] = l.name
             existed_server_list.append(l.name)
 
         existed_server_list.extend([l.rsplit('-', 1)[0] for l in existed_server_list])
-        print(existed_server_list)
         #s = self.nova.servers.find(name=server_s)
 
         if self.to_delete:
@@ -133,7 +131,8 @@ class STFVlabModule(STFBaseModule):
 
         for server_s in self.server_to_create_or_delete:
             if server_s in existed_server_list:
-                errorAndExit('Nova instance [%s] already existed in project [%s]' % (server_s, self.project_name))
+                logger.warning('Nova instance [%s] already existed in project [%s]' % (server_s, self.project_name))
+                #errorAndExit('Nova instance [%s] already existed in project [%s]' % (server_s, self.project_name))
 
         # check whether flavor existed
         for server_s in self.server_sections:
@@ -205,41 +204,66 @@ class STFVlabModule(STFBaseModule):
 
             nova_ins = self.nova.servers.create(name=name, min_count=count, key_name=self.keypair_name,
                                                 image=img_ins.id, flavor=flavor_ins.id, nics=[{'net-id': net_ins.id}])
-            logger.info('1 %s status is %s (%s)', name, nova_ins.status, nova_ins.id)
-            print '-----'
-            print dir(nova_ins)
-            print '-----'
 
-            logger.info('Bring up ' + name)
-            time.sleep(3)
-            nova_ins = self.nova.servers.find(id=nova_ins.id)
-            logger.info('2 %s status is %s (%s)', name, nova_ins.status, nova_ins.id)
+            logger.info('%s status is %s (%s), address: %s', name, nova_ins.status, nova_ins.id, nova_ins.addresses)
+
             while nova_ins.status == 'BUILD':
                 time.sleep(5)
-                nova_ins = self.nova.servers.find(id=nova_ins.id)
-                logger.info('Bring up %s, status is %s', name, nova_ins.id)
+                nova_ins = self.nova.servers.get(nova_ins.id)
+                logger.info('Bring up %s (%s), status is %s, address: %s', name, nova_ins.id, nova_ins.status, nova_ins.addresses)
+
+            if nova_ins.status != 'ACTIVE':
+                logger.error('Bring up %s (%s) failed, status is %s, address: %s', name, nova_ins.id, nova_ins.status,
+                            nova_ins.addresses)
+                raise Exception('Create nova instance failed.')
 
             logger.info(name + ' is ready')
-            # self.variable.createAndAddVhost(nova_ins, self.vlab_name_list
+
+            #extract the instance ip
+            ip = self.getNovaIp(nova_ins.addresses)
+
+            if ip is None:
+                raise Exception('Cannot get ip address of created nova instance')
+
+            self.variable.createAndAddVhost(self.vlab_name_list, name, login, ip)
+
+    def getNovaIp(self, address):
+        ip = None
+        for k in address:
+            # get list
+            tmp_ip_list = address[k]
+            # list element is a dict
+            for tmp_ip_dict in tmp_ip_list:
+                ip = tmp_ip_dict['addr']
+                if ip:
+                    return ip
 
     def doDelete(self, test_process):
-        for server_s in self.server_to_create_or_delete:
-            if server_s in self.existed_instances:
-                self.delNovaIns(server_s)
-                continue
-
-            server_s += '-'
-            for k in self.existed_instances:
-                if not k.startswith(server_s):
+        for server_to_del in self.server_to_create_or_delete:
+            server_to_del_with_suffix = server_to_del + '-'
+            for server_id in self.existed_instances:
+                server_name = self.existed_instances[server_id]
+                if server_name == server_to_del:
+                    self.delNovaIns(server_name, server_id)
                     continue
 
-                suffix = k[len(server_s):]
+                if not server_name.startswith(server_to_del_with_suffix):
+                    continue
 
+                suffix = server_name[len(server_to_del_with_suffix):]
+                #e.g. gemfieldServer-1
                 if suffix.isdigit():
-                    self.delNovaIns(k)
+                    self.delNovaIns(server_name, server_id)
 
 
-    def delNovaIns(self, name):
-        logger.info('will delete %s', name)
-        nova_ins = self.nova.servers.find(name=name)
-        nova_ins.delete()
+    def delNovaIns(self, name, id):
+        logger.info('will delete %s (%s)', name, id)
+        try:
+            nova_ins = self.nova.servers.find(id=id)
+        except Exception, e:
+            logger.warning('Cannot find the instance %s(%s): %s', name, id, str(e))
+            return
+        try:
+            nova_ins.delete()
+        except Exception, e:
+            logger.warning('Cannot delete the instance %s(%s): %s', name, id, str(e))

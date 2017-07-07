@@ -48,7 +48,11 @@ class STFScriptModule(STFBaseModule):
             raise Exception('not support jump host now')
 
         #vlab is dynamically created, so return here
-        if self.variable.isVlabValid(self.lab):
+        node_id = self.lab
+        if '@' in self.lab:
+            node_id = self.lab.split("@")[1]
+
+        if self.variable.isVlabValid(node_id):
             return
 
         labs = self.sshPlugin.getLabList(self.lab)

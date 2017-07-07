@@ -149,6 +149,9 @@ class LabInfo:
         if account is None:
             return
 
+        if ':' not in account:
+            account += ':'
+
         if become:
             self.become_user, password = account.split(':', 1)
         else:
@@ -220,8 +223,8 @@ class STFVariablePlugin(STFBasePlugin):
 
     def audit(self):
         if not self.parser:
-            logger.error('Should call init() function of %s plugin first' % __name__)
-            errorAndExit('You should specify ini file in command line to use the variable plugin')
+            logger.warning('You did not provide ini file, some functions may missed')
+            #errorAndExit('You should specify ini file in command line to use the variable plugin')
 
     def get(self, option, scope = 'Global'):
         self.audit()
@@ -463,7 +466,6 @@ class STFVariablePlugin(STFBasePlugin):
         try:
             list_v = ast.literal_eval(l)
         except Exception, e:
-            # print(str(e))
             return None
 
         if not isinstance(list_v, list):
@@ -492,7 +494,6 @@ class STFVariablePlugin(STFBasePlugin):
         try:
             list_v = ast.literal_eval(l)
         except Exception, e:
-            # print(str(e))
             list_v = l
 
         if not isinstance(list_v, list):
@@ -559,9 +560,10 @@ class STFVariablePlugin(STFBasePlugin):
             return None
 
         for k in vlab_ins.vhosts:
+            host_ins = vlab_ins.vhosts[k]
             lab_info = LabInfo()
-            lab_info.setAccount(k.login)
-            lab_info.setIP(k.IP)
+            lab_info.setAccount(host_ins.login)
+            lab_info.setIP(host_ins.IP)
             lab_info_list.append(lab_info)
 
         return lab_info_list
@@ -571,7 +573,7 @@ class STFVariablePlugin(STFBasePlugin):
             return
 
         lab_ins = Vlab(vlab_name)
-        self.vlab[vlab_name] = None
+        self.vlab[vlab_name] = lab_ins
 
     def createAndAddVhost(self, vlab_list, name, login, IP):
         host_ins = Vhost(name)
@@ -579,7 +581,7 @@ class STFVariablePlugin(STFBasePlugin):
         host_ins.IP = IP
 
         for lab in vlab_list:
-            lab.addVhost(host_ins)
+            self.vlab[lab].addVhost(host_ins)
 
 
     def isVlabValid(self, vlab_name):
