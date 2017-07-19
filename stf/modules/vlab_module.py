@@ -34,7 +34,6 @@ class STFVlabModule(STFBaseModule):
         self.to_delete = False
         self.existed_instances = {}
 
-
     def checkMode(self, mode):
         pass
     
@@ -85,12 +84,13 @@ class STFVlabModule(STFBaseModule):
 
         self.loader = loading.get_plugin_loader('password')
 
-        self.project_name = self.get('OS_PROJECT_NAME')
+        # openstack OS_* variable will read from Jenkins credential plugin or Jenkinsfile environment section
+        self.project_name = os.path.expandvars(self.get('OS_PROJECT_NAME'))
 
-        self.auth = self.loader.load_from_options(username=self.get('OS_USERNAME'),
-                                                  password=self.get('OS_PASSWORD'),
+        self.auth = self.loader.load_from_options(username=os.path.expandvars(self.get('OS_USERNAME')),
+                                                  password=os.path.expandvars(self.get('OS_PASSWORD')),
                                                   project_name=self.project_name,
-                                                  auth_url=self.get('OS_AUTH_URL'))
+                                                  auth_url=os.path.expandvars(self.get('OS_AUTH_URL')))
 
         self.session = session.Session(auth=self.auth)
         self.nova = nova_client.Client(2, session=self.session)
@@ -149,6 +149,13 @@ class STFVlabModule(STFBaseModule):
             img = self.get('image', server_s)
             img_ins = self.nova.glance.find_image(name_or_id=img)
 
+        # check count is in the range , 1 ~ 5
+        for server_s in self.server_sections:
+            count = int(self.get('count', server_s))
+            if count < 1 or count > 5:
+                errorAndExit('[count] in [%s] is out of range (1 - 5): %d' % (server_s, count))
+
+
     def get(self, option, section='Vlab'):
         if self.parser is None:
             raise Exception('self.parser not initialized')
@@ -189,43 +196,50 @@ class STFVlabModule(STFBaseModule):
         f.close()
 
         for server_s in self.server_sections:
-            flavor = self.get('flavor', server_s)
-            flavor_ins = self.nova.flavors.find(name=flavor)
+            count = int(self.get('count', server_s))
+            if count < 1 or count > 5:
+                raise Exception('[count] in [%s] is out of range (1 - 5): %d' % (server_s, count))
+            #help me: we can use nova create several instance simutaniously, but don't know how to query the status of each
+            #so here I create it serially
+            for index in range(0, count):
+                flavor = self.get('flavor', server_s)
+                flavor_ins = self.nova.flavors.find(name=flavor)
 
-            net = self.get('network', server_s)
-            net_ins = self.nova.neutron.find_network(net)
+                net = self.get('network', server_s)
+                net_ins = self.nova.neutron.find_network(net)
 
-            img = self.get('image', server_s)
-            img_ins = self.nova.glance.find_image(name_or_id=img)
+                img = self.get('image', server_s)
+                img_ins = self.nova.glance.find_image(name_or_id=img)
 
-            count = self.get('count', server_s)
-            login = self.get('login', server_s)
-            name = server_s.split(':')[1]
 
-            nova_ins = self.nova.servers.create(name=name, min_count=count, key_name=self.keypair_name,
-                                                image=img_ins.id, flavor=flavor_ins.id, nics=[{'net-id': net_ins.id}])
+                login = self.get('login', server_s)
+                name = server_s.split(':')[1]
+                # help me: we can use nova create several instance simutaniously, but don't know how to query the status of each
+                # so here I create it serially
+                nova_ins = self.nova.servers.create(name=name, min_count=1, key_name=self.keypair_name,
+                                                    image=img_ins.id, flavor=flavor_ins.id, nics=[{'net-id': net_ins.id}])
 
-            logger.info('%s status is %s (%s), address: %s', name, nova_ins.status, nova_ins.id, nova_ins.addresses)
+                logger.info('%s status is %s (%s), address: %s', name, nova_ins.status, nova_ins.id, nova_ins.addresses)
 
-            while nova_ins.status == 'BUILD':
-                time.sleep(5)
-                nova_ins = self.nova.servers.get(nova_ins.id)
-                logger.info('Bring up %s (%s), status is %s, address: %s', name, nova_ins.id, nova_ins.status, nova_ins.addresses)
+                while nova_ins.status == 'BUILD':
+                    time.sleep(5)
+                    nova_ins = self.nova.servers.get(nova_ins.id)
+                    logger.info('Bring up %s (%s), status is %s, address: %s', name, nova_ins.id, nova_ins.status, nova_ins.addresses)
 
-            if nova_ins.status != 'ACTIVE':
-                logger.error('Bring up %s (%s) failed, status is %s, address: %s', name, nova_ins.id, nova_ins.status,
-                            nova_ins.addresses)
-                raise Exception('Create nova instance failed.')
+                if nova_ins.status != 'ACTIVE':
+                    logger.error('Bring up %s (%s) failed, status is %s, address: %s', name, nova_ins.id, nova_ins.status,
+                                nova_ins.addresses)
+                    raise Exception('Create nova instance failed.')
 
-            logger.info(name + ' is ready')
+                logger.info(name + ' is ready')
 
-            #extract the instance ip
-            ip = self.getNovaIp(nova_ins.addresses)
+                #extract the instance ip
+                ip = self.getNovaIp(nova_ins.addresses)
 
-            if ip is None:
-                raise Exception('Cannot get ip address of created nova instance')
+                if ip is None:
+                    raise Exception('Cannot get ip address of created nova instance')
 
-            self.variable.createAndAddVhost(self.vlab_name_list, name, login, ip)
+                self.variable.createAndAddVhost(self.vlab_name_list, nova_ins.id, login, ip)
 
     def getNovaIp(self, address):
         ip = None
