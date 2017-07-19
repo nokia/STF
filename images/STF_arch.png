@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html>
+<head>
+            <title>Log In - Confluence</title>
+    
+        
+
+                        
+    
+                        
+    
+                        
+    
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=IE7">
+<meta charset="UTF-8">
+<meta id="confluence-context-path" name="confluence-context-path" content="">
+<meta id="confluence-base-url" name="confluence-base-url" content="https://confluence.app.alcatel-lucent.com">
+
+<meta id="atlassian-token" name="atlassian-token" content="41ddee5f98d752f895971bfc510be9c719955b9d">
+
+
+<script type="text/javascript">
+        var contextPath = '';
+</script>
+
+    
+
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="robots" content="noarchive">
+    <meta name="confluence-request-time" content="1500444027385">
+        
+    
+        
+            <meta name="ajs-is-space-admin" content=""> <meta name="ajs-has-space-config" content="">
+            <meta name="ajs-show-space-welcome-dialog" content="true">
+            <meta name="ajs-use-keyboard-shortcuts" content="true">
+            <meta name="ajs-discovered-plugin-features" content="{&quot;com.atlassian.confluence.plugins.confluence-jira-metadata&quot;:[&quot;linked-issues-dropdown&quot;]}">
+            <meta name="stp-license-product-name" content="Confluence"/> <meta name="stp-license-days-to-expiry" content="8"/> <meta name="stp-license-is-admin" content="false"/> <meta name="stp-license-should-keep-banner-hidden" content="false"/>
+            <meta name="ajs-keyboardshortcut-hash" content="b2d28f137b8e757f8e27803b2d3ce4d4">
+            <meta id="team-calendars-has-jira-link" content="true">
+            <meta name="ajs-team-calendars-display-time-format" content="displayTimeFormat12">
+            <meta id="team-calendars-display-week-number" content="false">
+            <meta id="team-calendars-show-timezone-setup" content="true">
+            <meta id="team-calendars-user-timezone" content="UTC">
+            <script type="text/x-template" id="team-calendars-messages" title="team-calendars-messages"><fieldset class="i18n hidden"><input type="hidden" name="calendar3.month.long.july" value="July"><input type="hidden" name="calendar3.day.short.wednesday" value="Wed"><input type="hidden" name="calendar3.day.short.thursday" value="Thu"><input type="hidden" name="calendar3.month.short.march" value="Mar"><input type="hidden" name="calendar3.month.long.april" value="April"><input type="hidden" name="calendar3.month.long.october" value="October"><input type="hidden" name="calendar3.month.long.august" value="August"><input type="hidden" name="calendar3.month.short.july" value="Jul"><input type="hidden" name="calendar3.month.short.may" value="May"><input type="hidden" name="calendar3.month.short.november" value="Nov"><input type="hidden" name="calendar3.day.long.friday" value="Friday"><input type="hidden" name="calendar3.day.long.sunday" value="Sunday"><input type="hidden" name="calendar3.day.long.saturday" value="Saturday"><input type="hidden" name="calendar3.month.short.april" value="Apr"><input type="hidden" name="calendar3.day.long.wednesday" value="Wednesday"><input type="hidden" name="calendar3.month.long.december" value="December"><input type="hidden" name="calendar3.month.short.october" value="Oct"><input type="hidden" name="calendar3.day.long.monday" value="Monday"><input type="hidden" name="calendar3.month.short.june" value="Jun"><input type="hidden" name="calendar3.day.short.monday" value="Mon"><input type="hidden" name="calendar3.day.short.tuesday" value="Tue"><input type="hidden" name="calendar3.day.short.saturday" value="Sat"><input type="hidden" name="calendar3.month.long.march" value="March"><input type="hidden" name="calendar3.month.long.june" value="June"><input type="hidden" name="calendar3.month.short.february" value="Feb"><input type="hidden" name="calendar3.month.short.august" value="Aug"><input type="hidden" name="calendar3.month.short.december" value="Dec"><input type="hidden" name="calendar3.day.short.sunday" value="Sun"><input type="hidden" name="calendar3.month.long.february" value="February"><input type="hidden" name="calendar3.day.long.tuesday" value="Tuesday"><input type="hidden" name="calendar3.month.long.may" value="May"><input type="hidden" name="calendar3.month.long.september" value="September"><input type="hidden" name="calendar3.month.long.november" value="November"><input type="hidden" name="calendar3.month.short.january" value="Jan"><input type="hidden" name="calendar3.month.short.september" value="Sep"><input type="hidden" name="calendar3.day.long.thursday" value="Thursday"><input type="hidden" name="calendar3.month.long.january" value="January"><input type="hidden" name="calendar3.day.short.friday" value="Fri"></fieldset></script>
+            <meta name="ajs-is-confluence-admin" content="false">
+            <meta name="ajs-connection-timeout" content="10000">
+            <meta name="gliffy-license-type" content="LicenseType&lt;COMMERCIAL&gt;">
+<meta name="gliffy-license-quantity" content="${pluginLicenseManager.userCount}">
+
+            <script type="text/x-template" title="gliffy-webpanel-footer">
+        <div class="gliffy-webpanel-footer"><span>You have <strong>1 days left</strong> in your <strong><a href="http://www.gliffy.com/confluence-plugin/">Gliffy Confluence Plugin</a></strong> free trial</span></div>
+</script>
+
+
+            
+    
+    
+            <meta name="ajs-context-path" content="">
+            <meta name="ajs-base-url" content="https://confluence.app.alcatel-lucent.com">
+            <meta name="ajs-version-number" content="5.8.10">
+            <meta name="ajs-build-number" content="5989">
+            <meta name="ajs-remote-user" content="xguan005">
+            <meta name="ajs-remote-user-key" content="076f91015254bf970152aef80ce0013a">
+            <meta name="ajs-current-user-fullname" content="Xiao GUAN">
+            <meta name="ajs-current-user-avatar-url" content="/download/attachments/82800836/user-avatar?version=1&amp;modificationDate=1497430787068&amp;api=v2">
+            <meta name="ajs-static-resource-url-prefix" content="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/_">
+            <meta name="ajs-global-settings-attachment-max-size" content="167772160">
+            <meta name="ajs-user-locale" content="en_GB">
+            <meta name="ajs-enabled-dark-features" content="confluence-inline-comments-resolved,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareContentEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.mentions.api.ConfluenceMentionEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.security.ForgotPasswordEvent,pdf-preview,notification.plugin.api.enabled.com.atlassian.confluence.plugins.tasklist.event.SendTaskEmailEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageMovedEvent,previews.sharing,previews.versions,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentUpdateEvent,file-annotations,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.attachment.AttachmentBatchUploadCompletedEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.comment.CommentCreateEvent,notification.plugin.api.enabled.com.atlassian.confluence.efi.emails.events.OnboardingLessUsersEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentRemoveEvent,atlassian.aui.raphael.disabled,previews.conversion-service,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.comment.CommentUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.follow.FollowEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageEditedEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostCreateEvent,previews.trigger-all-file-types,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentResolveEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.like.LikeCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentCreateEvent,previews.sharing.pushstate,confluence-inline-comments-rich-editor,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostUpdateEvent,file-annotations.likes,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentMentionUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.efi.emails.events.OnboardingNoSpaceCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.hipchat.api.events.HipChatUserMapped,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareAttachmentEvent,confluence-inline-comments,confluence-inline-comments-dangling-comment,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostMovedEvent">
+            <meta name="ajs-atl-token" content="41ddee5f98d752f895971bfc510be9c719955b9d">
+            <meta name="ajs-confluence-flavour" content="VANILLA">
+            <meta name="ajs-user-date-pattern" content="dd MMM yyyy">
+            <meta name="ajs-date.format" content="MMM dd, yyyy">
+    
+    <link rel="shortcut icon" href="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/_/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/_/favicon.ico">
+
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch/osd.action" title="Confluence"/>
+
+<script>
+window.WRM=window.WRM||{};window.WRM._unparsedData=window.WRM._unparsedData||{};
+WRM._unparsedData["com.atlassian.plugins.atlassian-plugins-webresource-plugin:context-path.context-path"]="\"\"";
+WRM._unparsedData["com.atlassian.plugins.atlassian-plugins-webresource-rest:web-resource-manager.resource-base-url-pattern"]="\"(?:(?:/s/.*?/_)?/download)\"";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-feature-discovery-plugin:confluence-feature-discovery-plugin-resources.test-mode"]="false";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-license-banner:confluence-license-banner-resources.license-details"]="{\"daysBeforeLicenseExpiry\":0,\"daysBeforeMaintenanceExpiry\":0,\"showLicenseExpiryBanner\":false,\"showMaintenanceExpiryBanner\":false,\"renewUrl\":null,\"salesEmail\":null}";
+WRM._unparsedData["com.atlassian.plugins.atlassian-nps-plugin:atlassian-nps-plugin-resources.is-server-instance-data-provider"]="true";
+WRM._unparsedData["com.atlassian.plugins.atlassian-nps-plugin:nps-acknowledgement-resources.analytics-enabled-data-provider"]="\"true\"";
+WRM._unparsedData["com.atlassian.plugins.atlassian-nps-plugin:nps-acknowledgement-resources.sen-data-provider"]="\"SEN-2031431\"";
+WRM._unparsedData["com.atlassian.plugins.browser.metrics.browser-metrics-plugin:browser-metrics.feature-data-provider-legacy"]="true";
+</script>
+<link type="text/css" rel="stylesheet" href="/s/0d5d4d803f401cbc97c582b76d4b1b54-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/194/_/download/superbatch/css/batch.css?build-number=5989" media="all">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/d41d8cd98f00b204e9800998ecf8427e-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/194/_/download/superbatch/css/batch.css?conditionalComment=lt+IE+9" media="all">
+<![endif]-->
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/d41d8cd98f00b204e9800998ecf8427e-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/194/_/download/superbatch/css/batch.css?conditionalComment=lte+IE+9" media="all">
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="/s/9cab5e47af5ecbc000eecd9b8cae9876-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/0be629433b76671767c350515db8c940/_/download/contextbatch/css/main,atl.general/batch.css?flavour=VANILLA" media="all">
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/1148dc528ce0b716cb312a80b976c4b2-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/0be629433b76671767c350515db8c940/_/download/contextbatch/css/main,atl.general/batch.css?conditionalComment=lte+IE+9" media="all">
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="/s/9a9e610fceaa3b0bd5e36d63064f2c17-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/97dc6390d588612f887919b07575c554/_/download/contextbatch/css/login/batch.css" media="all">
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/9a9e610fceaa3b0bd5e36d63064f2c17-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/97dc6390d588612f887919b07575c554/_/download/contextbatch/css/login/batch.css?conditionalComment=lte+IE+9" media="all">
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/6/_/styles/colors.css" media="all">
+<link type="text/css" rel="stylesheet" href="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/1.0/_/download/resources/com.atlassian.confluence.themes.default:styles/default-theme.css" media="all">
+<script type="text/javascript" src="/s/351fb086160840b872f1ee6d82e15225-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/194/_/download/superbatch/js/batch.js?atlassian.aui.raphael.disabled=true&amp;locale=en-GB&amp;build-number=5989" ></script>
+<script type="text/javascript" src="/s/385e86a14f772d8c2db3bd5e5784da40-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/0be629433b76671767c350515db8c940/_/download/contextbatch/js/main,atl.general/batch.js?flavour=VANILLA&amp;analytics-enabled=true&amp;locale=en-GB&amp;user-logged-in=true&amp;is-server-instance=true&amp;hostenabled=true" ></script>
+<script type="text/javascript" src="/s/6c0981174e94142364564819dc0d1413-CDN/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/1.0/_/download/batch/confluence.web.resources:login/confluence.web.resources:login.js?locale=en-GB" ></script>
+
+
+        
+            <meta name="stp-license-product-name" content="Confluence"/> <meta name="stp-license-days-to-expiry" content="8"/> <meta name="stp-license-is-admin" content="false"/> <meta name="stp-license-should-keep-banner-hidden" content="false"/>
+    
+
+            
+            
+            
+            
+	    		    
+		    
+			
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="text/javascript">	
+	jQuery(function(){
+  setTimeout(function(){jQuery("#js-sprint-migration-banner").slideUp(1000)},5000);
+});
+</script>
+
+<!--<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: large; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+Confluence mail notification doesn't work for parts of users due to SMTP issue.<span style="color:red"> ALU-IM004770911 </span>is working for this issue.
+<span class="aui-icon icon-close" tabindex="0" role="button"></span>
+</div>-->
+
+<!--
+<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: middle; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+Please Call CDC – Oncall<span style="color:red"> +86-13681689346 </span></a> during weekend in case of <span style="color:red">CRITICAL </span></a>incident/outage only
+</span><span class="aui-icon icon-close" tabindex="0" role="button"></span>
+</div>
+-->
+
+
+<!--<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: large; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+Dear Confluence user - Detailed configuration analysis and monitoring to be performed during <span style="color:red"> 12:00PM - 3:00 PM CET, Nov. 20th. </span></br></a>Instabilities can occur during this period.</a> Apologies for the inconvenience.
+</span><span class="aui-icon icon-close" tabindex="0" role="button"></span>
+</div>-->
+
+ <!-- <br><div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: large; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+Corp Confluence will have a <span style="color:red">planned outage </span>during <span style="color:red">CET 12:30 pm - CET 13:30 pm on Mar 23</span>.
+<br>
+Apologies for the inconvenience.
+<span class="aui-icon icon-close" tabindex="0" role="button"></span>
+</div>-->
+
+<!-- Don't annotate! this sheet is used to resolve page edit issue when using chrome50,ticket number:RDTH-2753-->
+<style type="text/css">
+#content.edit
+{ display: table-cell; }
+</style>
+
+
+<!--<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: large; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+<span style="color:red"> Corp JIRA/Confluence </span></a>and  </span><span style="color:red">STS JIRA </span></a>will be undergoing <span style="color:red">planned outage after AMS COB today.</span></a><br>Downtime will take<span style="color:red"> 5-15mins</span></a>.</br>
+</div>-->
+
+<!--
+<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: large; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+fNokia users access to fALU Atlassian applications: please apply for your CIP(Corporate Intranet Password) through 
+<a style="color:red" href="https://workspaces-emea.int.nokia.com/sites/NokiaALuITIntegrationProgram/CrossUseITAppl/Related%20documents/fAlu%20application%20instructions/Cross%20Use%20-%20Using%20fALu%20applications.pptx">self service Intranet</a>
+</div>
+-->
+
+    
+
+</head>
+
+<body             onload="placeFocus()"
+     id="com-atlassian-confluence" class="theme-default login aui-layout aui-theme-default">
+    
+        
+            <div id='stp-licenseStatus-banner'></div>
+            <fieldset class="parameters hidden">
+    <input type="hidden" id="workflowStatsUAKey" value="UA-11679828-12"/>
+    
+    
+        </fieldset>
+            
+            <script type="text/x-template" title="adhocworkflows-loading">
+    <div class="progress-messages-icon"></div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-user">
+    <li class="preset"><img src="{pictureUrl}"><a name="{name}"><span>({name}) {shortName}</span></a></li>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-assignee">
+    <li class="assignee" name="{name}">
+        <div>
+            <img src="{pictureUrl}"/>{fullName}
+            <span class="remove-assignee"></span>
+        </div>
+    </li>
+</script>
+
+<script type="text/x-template" title="adhoc-action">
+    <span class="workflow-action {id}" name="{id}"></span>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approvals">
+    <div class="progress-messages-icon"></div>
+    <div id="workflow-main">
+        <div class="approvals">
+        </div>
+        <form class="aui adhocworkflows">
+            <div class="button-panel dialog">
+                <a href="#" class="parameters">Parameters...</a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approval-action-default">
+    <span class="approval-name">{defaultAction.name}</span>
+    <a name="{defaultAction.id}" class="approve workflow-action" href="#"><span>{defaultAction.shortName}</span></a>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approval-duedate">
+    <div class="task-duedate">due {friendlyDueDate}</div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approval">
+    <div id="{id}" class="approval {separator}">
+        <div class="approval-header clr">
+            <div class="name {mark}">
+            </div>
+            <div class="approval-duedate">
+            </div>
+            <div class="workflow-actions">
+            </div>
+        </div>
+        <div class="approval-edit">
+            <div class="adhoc-message">
+            </div>
+            <form class="aui approval {signatureType}">
+                <input type="hidden" name="name" value="{name}"/>
+                <fieldset>
+                    <div class="credential-username"><label for="username">User Name</label></div>
+                    <input class="credential-username" type="text" name="username" id="username" width="10" >
+                    <div class="credential-password"><label for="password">Password</label></div>
+                    <input class="credential-password" type="password" name="password" id="password" width="10">
+                                        <input  type="text"
+                            class="text assignee-user"
+                            name="assignee"
+                            placeholder="Assign to..."/>
+                                        <input  type="text"
+                            class="text autocomplete-filtered-user"
+                            users="{filterUsers}"
+                            groups="{filterGroups}"
+                            name="assignee"
+                            data-max="10"
+                            data-template="{username}"
+                            data-none-message="No matching user found"
+                            placeholder="Assign to..."/>
+                    <div class="usersdropdown aui-dd-parent">
+                        <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                        <div class="aui-dropdown aui-dropdown-left hidden">
+                            <ol>
+                            </ol>
+                        </div>
+                    </div>
+                    <ol class="assignees select">
+                    </ol>
+                    <textarea class="textarea" placeholder="Add an optional note"/>
+                </fieldset>
+                <div class="button-panel">
+                    <input type="submit" name="approve" class="approve" value="Approve">
+                    <input type="submit" name="reject" class="reject" value="Reject">
+                    <input type="submit" name="assign" class="assign" disabled="disabled" value="Assign">
+                    <a href="#" class="cancel-approval">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-assignee-option">
+    <option class="assigneename" value="{name}">
+        <img src="{pictureUrl}" title="{fullName}"/>{fullName}
+    </option>
+</script>
+
+
+<script type="text/x-template" title="adhocworkflows-approver">
+    <div id="{id}" class="approval approver">
+        <div class="approval-header clr">
+            <div class="name {mark}">
+                <img src="{user.pictureUrl}" title="{user.fullName}">
+            </div>
+            <div class="workflow-actions">
+            </div>
+        </div>
+        <div class="approval-edit">
+            <form class="aui approval {signatureType}">
+                <input type="hidden" name="name" value="{name}"/>
+                <fieldset>
+                    <div class="credential-username"><label for="username">User Name</label></div>
+                    <input class="credential-username" type="text" name="username" id="username" width="10" >
+                    <div class="credential-password"><label for="password">Password</label></div>
+                    <input class="credential-password" type="password" name="password" id="password" width="10">
+                    <ol class="assignees assignee">
+                    <li style="display:none" name="{user.name}"></li>
+                    </ol>
+                    <textarea class="textarea" placeholder="Add an optional note"/>
+                </fieldset>
+                <div class="button-panel">
+                    <input type="submit" name="approve" class="approve" value="Approve">
+                    <input type="submit" name="reject" class="reject" value="Reject">
+                    <input type="submit" name="assign" class="assign" value="Assign">
+                    <input type="submit" name="unassign" class="delete" value="Unassign">
+                    <a href="#" class="cancel-approval">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks">
+    <div class="progress-messages-icon"></div>
+    <div id="tasks-main">
+        <div class="tasks">
+        </div>
+        <form class="aui adhocworkflows addtask">
+            <input type="hidden" name="id" value=""/>
+            <fieldset>
+                <span class="workflow-action assign-new-task" name="assign"></span>
+                <input  id="taskName0"
+                        name="taskName0"
+                        class="text taskName active"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName1"
+                        name="taskName1"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName2"
+                        name="taskName2"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName3"
+                        name="taskName3"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName4"
+                        name="taskName4"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName5"
+                        name="taskName5"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName6"
+                        name="taskName6"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName7"
+                        name="taskName7"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName8"
+                        name="taskName8"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName9"
+                        name="taskName9"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="newTaskAssignee"
+                        type="text"
+                        class="text autocomplete-user"
+                        name="assignee"
+                        data-max="10"
+                        data-template="{username}"
+                        data-none-message="No matching user found"
+                        placeholder="Assign to..."/>
+                <div class="usersdropdown aui-dd-parent">
+                    <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                    <ul class="aui-dropdown aui-dropdown-left hidden">
+                    </ul>
+                </div>
+                <ol class="assignees select single">
+                </ol>
+                <textarea class="textarea" placeholder="Add an optional note"/>
+            </fieldset>
+            <div class="button-panel">
+                <a href="#" class="add-task">Add task...</a>
+                <input type="submit" name="create" class="create" value="Create">
+                <a href="#" class="cancel-addtask">Cancel</a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks-count">
+    {count} Tasks
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks-count0">
+    Tasks
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks-count1">
+    1 Task
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-action-default">
+    <span class="task-name">{name}</span>
+        <a name="{action.id}" class="workflow-action" title="{hint}" href="#">{shortName}</a>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-name">
+    <span class="task-name">{name}</span>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-assignee">
+    <img src="{user.pictureUrl}" title="{user.fullName}"> {user.fullName}
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-duedate">
+    <span class="task-duedate">due {friendlyDueDate}</span>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-completed">
+    <div>
+        {actor.fullName} {lastAction} {date}
+    </div>
+    <blockquote class="note">
+        {comment}
+    </blockquote>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task">
+    <div id="task-{id}" class="task {toggle}">
+        <div class="task-header">
+            <div class="name {completed}">
+            </div>
+            <div class="workflow-actions">
+            </div>
+        </div>
+        <div class="task-edit">
+            <div class="task-caption">
+            </div>
+            <form class="aui">
+                <input type="hidden" name="id" value="{id}"/>
+                <fieldset>
+                    <input  type="text"
+                            class="text autocomplete-user"
+                            name="assignee"
+                            data-max="10"
+                            data-template="{username}"
+                            data-none-message="No matching user found"
+                            placeholder="Assign to..."/>
+                    <div class="usersdropdown aui-dd-parent">
+                        <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                        <ul class="aui-dropdown aui-dropdown-left hidden">
+                        </ul>
+                    </div>
+                    <ol class="assignees select single">
+                    </ol>
+                    <textarea class="textarea" placeholder="Add an optional note"/>
+                </fieldset>
+                <div class="button-panel">
+                    <input type="submit" name="remove" class="remove" value="Delete">
+                    <input type="submit" name="complete" class="complete" value="Complete">
+                    <input type="submit" name="assign" class="assign" value="Assign">
+                    <a href="#" class="cancel-task">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" title="adhocworkflows-states">
+    <div class="progress-messages-icon"></div>
+    <div id="workflow-main">
+        <form class="aui state">
+            <fieldset>
+                <span class="workflow-action assign-page" name="assign"></span>
+                <select id="select-workflow-state" name="state">
+                </select>
+                <ol class="assignees assigned">
+                </ol>
+                <input type="text "
+                            class="text newstatename"
+                            placeholder="New State name"/>
+                <input type="text"
+                            class="text autocomplete-user"
+                            name="assignee"
+                            data-max="10"
+                            data-template="{username}"
+                            data-none-message="No matching user found"
+                            placeholder="Assign to..."
+                            placeholder2="Reassign to..."/>
+                <div class="usersdropdown aui-dd-parent">
+                    <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                    <ul class="aui-dropdown aui-dropdown-left hidden">
+                    </ul>
+                </div>
+                <ol class="assignees select single">
+                </ol>
+                <textarea class="textarea" placeholder="Add an optional note"></textarea>
+            </fieldset>
+            <div class="button-panel">
+                <input type="submit" name="change" class="accept" value="Accept">
+                <input type="submit" name="unassign" class="unassign" value="Unassign">
+                <a href="#" class="parameters">Parameters...</a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-state">
+    <option>{name}</option>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-state-adhoc">
+    <optgroup label="Ad hoc Workflow">
+        <option value="0">Create a new state...</option>
+    </optgroup>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-select">
+    <div class="progress-messages-icon"></div>
+    <form class="aui adhocworkflows">
+        <fieldset>
+            <label for="select-workflow-templates">Workflow</label>
+            <select id="select-workflow-templates" name="workflowTemplate" class="select">
+            </select>
+            <div class="adhoc-states">
+                <label for="adhoc-state-names">State names</label>
+                <input id="adhoc-state-names" type="text" class="state-names" value="In Progress, Approved"/>
+                <span class="description">
+                    This is just an initial list, you will be able to change later
+                </span>
+            </div>
+
+            <span class="description">
+                Learn more about
+                <a target="_blank" href="https://wiki.comalatech.com/x/lYDn">
+                    working with workflows
+                </a>
+            </span>
+        </fieldset>
+        <div class="button-panel">
+            <input type="submit" name="confirm" value="Add">
+            <a href="#" class="close-dialog">Cancel</a>
+        </div>
+
+    </form>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-adhoc-template">
+    <optgroup label="Ad hoc Workflow">
+        <option value="0" title="Use this to define the workflow as you go: at each step allow participants to create tasks and to decide where next to route the document. All the states and tasks will be recorded and you will be able to reuse the workflow.">Start with a blank workflow</option>
+    </optgroup>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-select-template">
+    <option value="{id}" title="{description}">{name}</option>
+</script>
+
+
+<script type="text/x-template" title="adhocworkflows-form">
+    <div class="progress-messages-icon"></div>
+    <div id="workflow-form">
+        <form class="aui ahoc-form">
+            <fieldset>
+                <table>
+
+                </table>
+            </fieldset>
+            <div class="button-panel">
+                <input type="submit" name="accept" class="accept" value="Accept">
+                <a href="#" class="edit-form"><span class="value">Edit</span></a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield">
+    <tr>
+        <td class="field-name">
+            {name}
+        </td>
+        <td id="{id}" class="value">
+        </td>
+    </tr>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-text">
+    <span class="value">{value}</span>
+    <input name="{id}" type="text" class="text" value="{value}"/>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-user">
+    <span class="user value" title="{value}">{value}</span>
+    <input  type="text"
+            class="text autocomplete-user"
+            name="{id}"
+            data-max="10"
+            data-template="{username}"
+            data-none-message="No matching user found"
+            placeholder="Assign to..."
+            value="{value}"/>
+    <div class="usersdropdown aui-dd-parent">
+        <a href="" class="aui-dd-trigger" style="display:none;"></a>
+        <ul class="aui-dropdown aui-dropdown-left">
+        </ul>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-decorated-user">
+    <img src="{user.pictureUrl}" title="{user.fullName}">
+    <span>{user.fullName}</span>
+</script>
+
+
+<script type="text/x-template" title="adhocworkflows-inputfield-list">
+    <span class="value">
+        {value}
+    </span>
+    <select name="{id}">
+    </select>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-list-option">
+    <option {selected}>{option}</option>
+</script>
+
+            <meta name="ajs-is-scroll-viewport-available" content="true">
+    <div id="page">
+    <div id="full-height-container">
+        <div id="header-precursor">
+            <div class="cell">
+                <!-- for outage -->
+<!--
+<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: large; border: 1px solid grey; margin: 4px; padding: 2px; text-align: center">
+Dear users, please be informed that there will be<span style="color:red"> a planned outage</span> at <span style="color:red"> 09:00 am CET – 10:00 am CET </span> on <span style="color:red">this Saturday, 27th May </span>
+<br> If you have any concerns, feel free to send  a mail to <span style="color:red">I_EXT_SDC_ATLASSIAN_SUPPORT@internal.nsn.com</span> Or call <span style="color:red"> +86-13681689346 </span>
+ </div> 
+-->
+
+
+<!-- for weekend on call -->
+<!--
+<div id="js-sprint-migration-banner" class="aui-message closeable shadowed " style="color:SteelBlue ; font-weight:bold; background-color: #FFF8DC; font-size: middle; border: 1px solid grey; margin: 1px; padding: 1px; text-align: center">
+Please Call CDC – Oncall<span style="color:red"> +86-13681689346 </span> during weekend in case of <span style="color:red">CRITICAL </span> incident/outage only
+</span><span class="aui-icon icon-close" tabindex="0" role="button"></span>
+</div>
+-->
+                                    </div>
+        </div>
+        
+
+
+
+<header id="header" role="banner">
+    <nav class="aui-header aui-dropdown2-trigger-group" role="navigation"><div class="aui-header-inner"><div class="aui-header-before"><a class=" aui-dropdown2-trigger app-switcher-trigger" aria-owns="app-switcher" aria-controls="app-switcher" aria-haspopup="true" data-aui-trigger href="#app-switcher"><span class="aui-icon aui-icon-small aui-iconfont-appswitcher">Linked Applications</span></a><div id="app-switcher" class="aui-dropdown2 aui-style-default"><div class="app-switcher-loading">Loading&hellip;</div></div><script>
+            (function (NL) {
+                var initialise = function () {
+                    // For some milestones of AUI, the atlassian soy namespace was renamed to aui. Handle that here by ensuring that window.atlassian is defined.
+                    window.atlassian = window.atlassian || window.aui;
+                    new NL.AppSwitcher({
+                        dropdownContents: '#app-switcher'
+                    });
+                };
+                if (NL.AppSwitcher) {
+                    initialise();
+                } else {
+                    NL.onInit = initialise;
+                }
+            }(window.NL = (window.NL || {})));
+            window.NL.isUserAdmin = false</script></div><div class="aui-header-primary"><h1 id="logo" class="aui-header-logo aui-header-logo-custom"><a href="/"><img src="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/_/images/logo/confluence-logo.png" alt="Confluence" /></a></h1><ul class="aui-nav">
+                            <li>
+            
+        
+         
+
+<a  id="space-directory-link" href="/spacedirectory/view.action"  class=" aui-nav-imagelink"   title="Spaces">
+            <span>Spaces</span>
+    </a>
+        </li>
+                    <li>
+            
+    
+         
+
+<a  id="people-directory-link" href="/browsepeople.action"  class=" aui-nav-imagelink"   title="People">
+            <span>People</span>
+    </a>
+        </li>
+                    <li>
+            
+    
+         
+
+<a  href="/calendar/mycalendar.action"  class=" aui-nav-imagelink"   title="Calendars">
+            <span>Calendars</span>
+    </a>
+        </li>
+                                            <li>
+            
+    
+             
+
+<a  id="create-page-button" href="#"  class="aui-button aui-style aui-button-primary aui-nav-imagelink"   title="Create Content">
+            <span>Create</span>
+    </a>
+        </li>
+        </ul>
+</div><div class="aui-header-secondary"><ul class="aui-nav">
+                        <li>
+        <form id="quick-search" class="aui-quicksearch dont-default-focus header-quicksearch" action="/dosearchsite.action" method="get"><fieldset><label for="quick-search-query" class="assistive">Quick Search</label><input id="quick-search-query" class="text app-search search quick-search-query" type="text" accessKey="q" autocomplete="off" name="queryString" title="Quick Search" placeholder="Search" /><input id="quick-search-submit" class="quick-search-submit" type="submit" value="Search"/><div class="aui-dd-parent quick-nav-drop-down"></div></fieldset></form>
+    </li>
+        <li>
+            
+        <a id="help-menu-link" class="aui-nav-link aui-dropdown2-trigger" href="#" aria-haspopup="true" aria-owns="help-menu-link-content" title="Help">
+        <span class="aui-icon aui-icon-small aui-iconfont-help">Help</span>
+    </a>
+    <nav id="help-menu-link-content" class="aui-dropdown2 aui-style-default" aria-hidden="true">
+                    <div class="aui-dropdown2-section">
+                                <ul  id="help-menu-link-leading" class="aui-list-truncate section-leading first">
+                                            <li>
+        
+             
+
+<a  id="confluence-help-link" href="https://docs.atlassian.com/confluence/docs-58/Getting+Help+And+Support" class="    "      title="Visit the Confluence documentation home"  target="_blank"
+>
+        Online Help
+</a>
+</li>
+                                            <li>
+    
+                 
+
+<a  id="keyboard-shortcuts-link" href="#" class="    "      title="View available keyboard shortcuts" >
+        Keyboard Shortcuts
+</a>
+</li>
+                                            <li>
+    
+             
+
+<a  id="feed-builder-link" href="/dashboard/configurerssfeed.action" class="    "      title="Create your custom RSS feed." >
+        Feed Builder
+</a>
+</li>
+                                            <li>
+    
+             
+
+<a  id="whats-new-menu-link" href="https://docs.atlassian.com/confluence/docs-58/whatsnew/iframe?od=false&a=false" class="    "      title="" >
+        What’s new
+</a>
+</li>
+                                            <li>
+    
+                 
+
+<a  id="gadget-directory-link" href="#" class="   user-item administration-link "      title="Browse gadgets provided by Confluence" >
+        Available Gadgets
+</a>
+</li>
+                                            <li>
+    
+             
+
+<a  id="confluence-about-link" href="/aboutconfluencepage.action" class="    "      title="Get more information about Confluence" >
+        About Confluence
+</a>
+</li>
+                                    </ul>
+            </div>
+            </nav>
+    
+    </li>
+        <li>
+                
+    
+    </li>
+        <li>
+                    
+        
+             
+
+<a  id="notifications-anchor" href="#"  class="mw-anchor read aui-nav-imagelink"   title="">
+            <span></span>
+    </a>
+    
+    </li>
+        <li>
+                                            
+        <a id="user-menu-link" class="aui-dropdown2-trigger " aria-haspopup="true" aria-owns="user-menu-link-content" data-username="xguan005" href="#" title="Xiao GUAN">
+                    <div class="aui-avatar aui-avatar-small">
+                <div class="aui-avatar-inner">
+                    <img src="/s/en_GB/5989/aaad9997c145089d7f38b9dea0ac5b91728ef55a.6/_/download/attachments/82800836/user-avatar?version=1&modificationDate=1497430787068&api=v2"/>
+                </div>
+            </div>
+            <span class="aui-icon-dropdown"></span>
+        </a>
+        <nav id="user-menu-link-content" class="aui-dropdown2 aui-style-default">
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-status"                        class="aui-list-truncate section-user-status first">
+                                                    <li>
+        
+             
+
+<a  id="create-user-status-link" href="/display/~xguan005" class="   user-item update-user-status "      title="Update your status" >
+        Update Status…
+</a>
+</li>
+                                            </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-preferences"                        class="aui-list-truncate section-user-preferences">
+                                                    <li>
+    
+             
+
+<a  id="create-personal-space-link" href="/spaces/createpersonalspace.action" class="   user-item personal-space create-personal-space-link "      title="" >
+        Add Personal Space…
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="view-user-history-link" href="/users/viewuserhistory.action" class="   user-item user-history popup-link "      title="" >
+        Recently Viewed
+</a>
+</li>
+                                            </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-content"                        class="aui-list-truncate section-user-content">
+                                                    <li>
+    
+             
+
+<a  id="view-user-profile-link" href="/users/viewmyprofile.action" class="   user-item user-profile "      title="" >
+        Profile
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="view-mytasks-link" href="/plugins/inlinetasks/mytasks.action" class="   user-item list-user-status "      title="" >
+        Tasks
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="user-favourites-link" href="/users/viewmyfavourites.action" class="   user-item "      title="" >
+        Favourites
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="user-watches-link" href="/users/viewnotifications.action" class="   user-item "      title="" >
+        Watches
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="tree-view-management-action" href="/users/tree-view-management.action" class="   user-item "      title="" >
+        Tree watches
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="user-drafts-link" href="/users/viewmydrafts.action" class="   user-item "      title="" >
+        Drafts
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="view-user-status-link" href="/display/status/xguan005/list" class="   user-item list-user-status "      title="" >
+        Status updates
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="user-network-link" href="/users/viewfollow.action?username=xguan005" class="   follow-link "      title="" >
+        Network
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="user-settings-link" href="/users/viewmysettings.action" class="   user-item "      title="" >
+        Settings
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  href="/users/workflow/view.action" class="    "      title="" >
+        Comala Workflow Tasks
+</a>
+</li>
+                                                    <li>
+    
+             
+
+<a  id="upm-requests-link" href="/plugins/servlet/upm/requests?source=header_user" class="    "      title="" >
+        Atlassian Marketplace
+</a>
+</li>
+                                            </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-operations"                        class="aui-list-truncate section-user-operations">
+                                                    <li>
+    
+             
+
+<a  id="logout-link" href="/logout.action" class="   user-item logout-link "      title="" >
+        Log Out
+</a>
+</li>
+                                            </ul>
+                </div>
+                    </nav>
+                    
+    </li>
+    </ul>
+</div></div><!-- .aui-header-inner--></nav><!-- .aui-header -->
+    <br class="clear">
+</header>
+                <!-- \#header -->
+
+            
+        <div id="main" class=" aui-page-panel">
+            
+
+            <div id="sidebar-container">
+                                                                        </div><!-- \#sidebar-container -->
+
+            
+		
+        
+		
+        <div id="login-container" >
+                    <div class="login-section">
+                <h2>Log in</h2>
+                
+
+<div id="action-messages">
+                        </div>
+                <p>You are currently logged in as xguan005.</p>
+                <p class="last"><a href="dashboard.action">Click here</a> for the dashboard. To log in as another user, you must first <a href="logout.action">log out</a>.</p>
+            </div>
+                </div>
+                    
+        	
+        </div><!-- \#main -->
+    
+        
+                        
+            
+            
+
+<div id="footer" role="contentinfo">
+    <section class="footer-body">
+
+                                                    
+        
+                <ul id="login-language">
+                                            <li>
+                            <a href="/login.action?language=de_DE">Deutsch</a>
+                        </li>
+                                            <li>
+                            <a href="/login.action?language=en_GB">English</a>
+                        </li>
+                                            <li>
+                            <a href="/login.action?language=en_US">English</a>
+                        </li>
+                                            <li>
+                            <a href="/login.action?language=es_ES">Español</a>
+                        </li>
+                                            <li>
+                            <a href="/login.action?language=fr_FR">Français</a>
+                        </li>
+                                            <li>
+                            <a href="/login.action?language=ja_JP">日本語</a>
+                        </li>
+                                    </ul>
+            
+
+        <ul id="poweredby">
+            <li class="noprint">Powered by <a href="http://www.atlassian.com/software/confluence" class="hover-footer-link">Atlassian Confluence</a> <span id='footer-build-information'>5.8.10</span>, <a href="http://www.atlassian.com/software/confluence/overview/team-collaboration-software?utm_source=confluence-footer" class="hover-footer-link">Team Collaboration Software</a></li>
+            <li class="print-only">Printed by Atlassian Confluence 5.8.10, Team Collaboration Software.</li>
+            <li class="noprint"><a href="https://jira.atlassian.com/browse/CONF" class="hover-footer-link">Report a bug</a></li>
+            <li class="noprint"><a href="http://www.atlassian.com/about/connected.jsp?s_kwcid=Confluence-stayintouch" class="hover-footer-link">Atlassian News</a></li>
+        </ul>
+
+        
+
+        <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+
+                    
+        
+    </section>
+</div>
+
+        </div><!-- \#full-height-container -->
+</div><!-- \#page -->
+</body>
+</html>
