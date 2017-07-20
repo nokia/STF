@@ -4,7 +4,7 @@ def readme():
     with open('README.md') as f:
         return f.read()
 
-version="0.2.0"
+version="0.2.1"
 setup(name='stf',
     version=version,
     description='The simple test framework',
