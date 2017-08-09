@@ -460,13 +460,15 @@ class STFVariablePlugin(STFBasePlugin):
 
     def _getValueAsList(self, option, section='Global'):
         l = self.get(option, section)
+
         if l is None:
             return None
 
+        list_v = None
         try:
             list_v = ast.literal_eval(l)
         except Exception, e:
-            return None
+            pass
 
         if not isinstance(list_v, list):
             list_v = filter(None, l.split('\n'))
@@ -504,7 +506,7 @@ class STFVariablePlugin(STFBasePlugin):
     def getLabInfo(self, node_id, account_id):
         if node_id is None:
             raise Exception('1st parameter missing when calling getLabInfo(node_id, account_id)')
-        # first to check whether it is a vlab
+        # first to check whether it is a vlab, i.e. created by stf vlab module
         vlab_list = self.getVhostList(node_id, account_id)
         if vlab_list:
             return vlab_list
@@ -542,11 +544,20 @@ class STFVariablePlugin(STFBasePlugin):
             account_id = 'user'
 
         lab_info_list = []
-        lab_info = LabInfo()
-        lab_info.setAccount(self.getEnv(account_id))
-        lab_info.setAccount(self.getEnv(account_id + '_become'), True)
-        lab_info.setIP(self.getEnv(node_id))
-        lab_info_list.append(lab_info)
+        lab_ip_list = self._getValueAsList(node_id, 'Env')
+        print lab_ip_list
+        
+        if lab_ip_list is None:
+            return lab_info_list
+        
+        for lab_ip in lab_ip_list:
+            print "gemfield ip: %s" %lab_ip
+            lab_info = LabInfo()
+            lab_info.setAccount(self.getEnv(account_id))
+            lab_info.setAccount(self.getEnv(account_id + '_become'), True)
+            lab_info.setIP(lab_ip)
+            lab_info_list.append(lab_info)
+            
         return lab_info_list
 
     #vlab will use this API
