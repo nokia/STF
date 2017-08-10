@@ -155,7 +155,7 @@ class STFReportPlugin(STFBasePlugin):
                         testcase.appendChild(error)
                         error.setAttribute('type','error')
                         error.setAttribute('message',c.fatal_error)
-                        cdata = doc.createCDATASection(c.__dict__)
+                        cdata = doc.createCDATASection(str(c.__dict__))
                         error.appendChild(cdata)
                         failures = failures + 1
                     testsuite.appendChild(testcase)

@@ -34,6 +34,8 @@ class TestSuite(object):
             self.name = self.path
         self.current_case = None
         self.case_list = []
+        # include setup and teardown
+        self.prechecked_case_list = []
         self.has_failed = False
         self.has_run = False
         self.setup = None
@@ -56,48 +58,49 @@ class TestSuite(object):
         return len(self.case_list)
 
     def preCheck(self):
-        if len(self.case_list)  < 1:
-            logger.warning('No test cases found in current test suite: %s', self.path)
-            return
-
         if self.setup:
             self.current_case = self.setup
             self.current_case.preCheck()
+            self.prechecked_case_list.append(self.current_case)
 
         for case in self.case_list:
             self.current_case = case
             self.current_case.preCheck()
+            self.prechecked_case_list.append(self.current_case)
 
         if self.teardown:
             self.current_case = self.teardown
             self.current_case.preCheck()
+            self.prechecked_case_list.append(self.current_case)
+
+        if len(self.prechecked_case_list)  < 1 :
+            raise Exception('No test cases found in current test suite: %s', self.path)
 
     def run(self):
         if self.has_run:
             return
 
         self.has_run = True
-
-        if len(self.case_list) < 1:
-            logger.warning('No test cases found in current test suite: %s', self.path )
-            return
-
         try:
             self.starttime = time.time()
             if self.setup:
                 self.current_case = self.setup
                 self.current_case.run()
-                if self.setup.has_failed:
+                if self.current_case.has_failed:
                     self.has_failed = True
                     raise Exception('setup failed in current test suite, omit the following test cases.')
 
             for case in self.case_list:
                 self.current_case = case
                 self.current_case.run()
+                if self.current_case.has_failed:
+                    self.has_failed = True
 
             if self.teardown:
                 self.current_case = self.teardown
                 self.current_case.run()
+                if self.current_case.has_failed:
+                    self.has_failed = True
         except BaseException, e:
             self.has_failed = True
             logger.error('Test suite %s failed: %s' %(self.path, str(e) ) )
@@ -160,6 +163,7 @@ class TestCase(object):
 
         if len(self.step_list) < 1:
             logger.warning('No step found in current case: %s', self.path )
+            self.has_failed = True
             return
 
         variables.refreshCaseEnv()
@@ -176,6 +180,10 @@ class TestCase(object):
                 self.current_step.exitcode = 1
             finally:
                 self.terminateTimeoutSteps()
+                if self.current_step.has_failed:
+                    self.has_failed = True
+                    self.exitcode = 1
+
                 if self.has_failed:
                     break
 
@@ -267,6 +275,7 @@ class TestStep(object):
         self.fatal_error = None
         self.stdout = None
         self.stderr = None
+        self.has_failed = False
         # key is the processIndex, eg: 0 1 2 3 4 5 6 7 8, value is ProcessInfo Instance
         self.process_info = []
 
@@ -299,8 +308,13 @@ class TestStep(object):
         finally:
             self.endtime = time.time()
             self.elapsed_time = "{0:.6f}".format(self.endtime - self.starttime)
+            #exit code is important
             for tp in self.process_info:
                 variables.parseStdout(tp.stdout, report)
+                #duplicated with module
+                if tp.exitcode != 0:
+                    self.has_failed = True
+                    self.exitcode = tp.exitcode
 
 
 class TestProcess(object):

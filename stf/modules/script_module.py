@@ -116,7 +116,10 @@ class STFScriptModule(STFBaseModule):
             if lab.become_user:
                 finalAccount = lab.become_user
 
-            self.runScriptOnRemote(ip, test_step, account=finalAccount)
+            test_step.exitcode = self.runScriptOnRemote(ip, test_step, account=finalAccount)
+            if test_step.exitcode != 0:
+                test_step.has_failed = True
+                break
 
     def runScriptLocal(self, test_step, timeout=None, async=False):
         """
@@ -128,6 +131,7 @@ class STFScriptModule(STFBaseModule):
         """
         command = test_step.path
         tp = TestProcess()
+        tp.exitcode = 0
         test_step.addProcess(tp)
         tp.starttime = time.time()
         tp.status = 'running'
@@ -169,29 +173,33 @@ class STFScriptModule(STFBaseModule):
         :return tuple (returnCode, output)
         """
         tp = TestProcess()
+        tp.exitcode = 0
         test_step.addProcess(tp)
         tp.starttime = time.time()
         tp.status = 'running'
 
         tp.exitcode, remoteScriptPath = self.copyFileToRemote(remoteNode, test_step.path, remoteFileDir, account)
 
-        if not tp.exitcode:
-            return
+        if tp.exitcode != 0:
+            return tp.exitcode
 
         localEnvProfile = self._generateEnvProfile()
         tp.exitcode, remoteEnvProfile = self.copyFileToRemote(remoteNode, localEnvProfile, remoteFileDir, account)
-        if not tp.exitcode:
-            return
+        if tp.exitcode != 0:
+            return tp.exitcode
         
         command = "set -a; source " + remoteEnvProfile + "; "+ "chmod +x "+ remoteScriptPath + "; " + remoteScriptPath
-        logger.debug("run command %s on %s as %s", command, remoteNode, account)
+        logger.debug("will run command %s on %s as %s", command, remoteNode, account)
         tp.exitcode, tp.stdout, tp.stderr = self.sshManager.run(remoteNode, command, user=account)
         logger.debug("run command %s on %s as %s, tp.exitcode is %s, output is %s ",
                     command, remoteNode, account, tp.exitcode, tp.stdout + os.linesep + tp.stderr)
-        rmCommand = "rm " + remoteEnvProfile + " " + remoteScriptPath
-        logger.debug("run command %s on %s as %s", rmCommand, remoteNode, account)
-        self.sshManager.run(remoteNode, rmCommand, user=account)
-        logger.debug("return %s, %s, %s", tp.exitcode, tp.stdout, tp.stderr)
+
+        command = "rm " + remoteEnvProfile + " " + remoteScriptPath
+        logger.debug("will run command %s on %s as %s", command, remoteNode, account)
+        #For now we don't care whether this command is successful
+        self.sshManager.run(remoteNode, command, user=account)
 
         tp.status = 'end'
+
+        return tp.exitcode
 

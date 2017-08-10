@@ -39,7 +39,7 @@ def main():
     #regular view call sequence
     view.parseArguments(parser, sys.argv[2:])
     view.preCheck()
-    view.run()
+    return view.run()
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

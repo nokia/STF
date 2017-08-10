@@ -75,7 +75,7 @@ class STFBaseModule(object):
         raise Exception(error_msg)
 
     def preCheck(self, test_step):
-        logger.info("mode is %s, mode_argv is %s, module is %s, module_argv is %s, step_tags is %s, test_step.tms_ids is %s",\
+        logger.debug("mode is %s, mode_argv is %s, module is %s, module_argv is %s, step_tags is %s, test_step.tms_ids is %s",\
                     test_step.mode, test_step.mode_argv, test_step.module, test_step.module_argv, test_step.step_tags, test_step.tms_ids)
         if test_step.path:
             self.checkFileExistAndNotEmpty(test_step.path)

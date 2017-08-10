@@ -545,13 +545,12 @@ class STFVariablePlugin(STFBasePlugin):
 
         lab_info_list = []
         lab_ip_list = self._getValueAsList(node_id, 'Env')
-        print lab_ip_list
         
         if lab_ip_list is None:
             return lab_info_list
         
         for lab_ip in lab_ip_list:
-            print "gemfield ip: %s" %lab_ip
+            logger.debug('get lab ip from [Env] section: %s' % lab_ip)
             lab_info = LabInfo()
             lab_info.setAccount(self.getEnv(account_id))
             lab_info.setAccount(self.getEnv(account_id + '_become'), True)

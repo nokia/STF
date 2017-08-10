@@ -5,13 +5,17 @@ from stf.lib.stf_utils import *
 from stf.lib.logging.logger import Logger
 from stf.lib.SParser import SParser, GRE, SRE
 from stf.managers.test_case_manager import TestSuite, TestCase, TestStep
-
+from stf.lib.stf_radish_bdd import *
 
 logger = Logger.getLogger(__name__)
 
 class STFTestView(STFBaseView):
     def __init__(self, plugins):
         super(STFTestView, self).__init__(plugins)
+        self.is_bdd = False
+        self.no_report = False
+        self.bdd_dir = 'radish/features'
+        self.is_case_from_cmd = False
 
     def parseArguments(self, parser, argv):
         parser.add_argument("-c", "--case", nargs='+', help="file or directory path, multi paths split by whitespace", required=False)
@@ -19,20 +23,46 @@ class STFTestView(STFBaseView):
         parser.add_argument("-t", "--tags", help="To filter the cases by tags", required=False)
         parser.add_argument("-i", "--ini", help="the ini file path", required=False)
         parser.add_argument("-p", "--pipeline", help="The test section pipeline name or deploy parallel number", required=False)
+        parser.add_argument("-b", "--bdd", help="Generate the stf.feature to current direcotry",
+                            required=False, action='store_true')
+        parser.add_argument("-n", "--no_report", help="do not generate report (xml or html)",
+                            required=False, action='store_true')
         parser.add_argument("--log",help="the name of log flag, The log file will be stf_logFlag",required=False)
         args = parser.parse_args(argv)
+        if args.case:
+            self.is_case_from_cmd = True
+        if args.no_report:
+            self.no_report = True
+        if args.bdd:
+            self.is_bdd = True
+            if args.ini is None:
+                raise Exception('Must provide ini file (specified by -i or --ini) in bdd mode (specified by -b or --bdd)')
 
         variables = self.plugins.getInstance('variable')
         variables.init(args.ini, pipeline=args.pipeline, section=args.section)
         self.addCaseSource(args.case)
         self.addTags(args.tags)
 
+    # view has the return code
     def run(self):
+        # just generate bdd feature file
+        if self.is_bdd:
+            #create radish directory
+            return self.createBddFiles()
+
+        rc = 0
         for case_suite in self.report.case_suite_list:
             case_suite.run()
+            if case_suite.has_failed:
+                rc = 1
 
         self.report.reportToTms()
+
+        if self.no_report:
+            return rc
+
         self.report.generateXmlReport()
+        return rc
 
     def preCheck(self):
         self._detectJenkins()
@@ -43,6 +73,33 @@ class STFTestView(STFBaseView):
 
         for case_suite in self.report.case_suite_list:
             case_suite.preCheck()
+
+    def createBddFiles(self):
+        bdd_imp_file = '%s/steps.py' % (self.bdd_dir)
+        bdd_feature_file = '%s/%s' % (self.bdd_dir, 'stf.feature')
+
+        try:
+            if not os.path.exists(self.bdd_dir):
+                os.makedirs(self.bdd_dir)
+
+            variables = self.plugins.getInstance('variable')
+            # write setup.py
+            with open(bdd_imp_file, 'w') as bdd_file:
+                bdd_file.write(radish_bdd_setup_py)
+            logger.info("Generated BDD implementation file: %s" %bdd_imp_file)
+            # write stf.feature
+            with open(bdd_feature_file, 'w') as bdd_file:
+                bdd_file.write(radish_bdd_stf_feature)
+                for case_suite in self.report.case_suite_list:
+                    for case in case_suite.prechecked_case_list:
+                        bdd_file.write("        | %s | %s | 0 |\n" % (variables.ini_file, case.path))
+            logger.info("Generated BDD feature file: %s" % bdd_feature_file)
+            logger.info("You can then use 'radish %s' to run the cases with the BDD way" %(self.bdd_dir) )
+        except Exception,e:
+            logger.error(str(e))
+            return 1
+
+        return 0
 
     def _findTestWithSteps(self, root, d, test_suite, direct=False):
         if not d.startswith("stf__"):
@@ -142,7 +199,8 @@ class STFTestView(STFBaseView):
         return True
 
     def _findTests(self):
-        self.prepareCaseSourceList()
+        if not self.is_case_from_cmd:
+            self.prepareCaseSourceList()
         #pass view to TestSuite and TestCase
         TestSuite.setView(self)
         TestCase.setView(self)

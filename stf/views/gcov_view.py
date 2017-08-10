@@ -23,7 +23,7 @@ class STFGcovView(STFBaseView):
         self.path = '%s/%s:%s' % (os.path.dirname(os.path.dirname(__file__)), 'helper', os.environ['PATH'])
 
     def run(self):
-        subprocess.call(self.build_command, env={"PATH": self.path}, shell=True)
+        return subprocess.call(self.build_command, env={"PATH": self.path}, shell=True)
 
 
     def preCheck(self):

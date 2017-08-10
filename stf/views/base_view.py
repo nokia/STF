@@ -43,7 +43,7 @@ class STFBaseView(object):
     def addTags(self, tags):
         if tags is None:
             return
-        logger.info('You specified tags with --tags in command line: %s' % tags)
+        logger.debug('You specified tags with --tags in command line: %s' % tags)
         self.is_tag_filter = True
         self.tags_filter.extend(tags.split(','))
 
@@ -54,7 +54,7 @@ class STFBaseView(object):
         # from command line
         if case_dirs is None:
             return
-        logger.info('You specified case directory with --case in command line: %s' % case_dirs)
+        logger.debug('You specified case directory with --case in command line: %s' % case_dirs)
         for case_dir in case_dirs:
             self._prepareCaseSource(case_dir)
 
@@ -66,15 +66,15 @@ class STFBaseView(object):
             return
 
         l = self.variables.getTestValueAsList('source')
-        logger.info("start to prepare case %s", str(l))
+        logger.debug("start to prepare case %s", str(l))
         
         if l is None:
             if len(self.case_dir_list) == 0:
-                logger.warning("No cases will be performed since you did not specify --case in command line, too")
+                logger.debug("No cases will be performed since you did not specify --case in command line, too")
             return
 
         for i in l:
-            logger.info("try to prepare case %s", i)
+            logger.debug("try to prepare case %s", i)
             self._prepareCaseSource(i)
 
     def _prepareCaseSource(self, i):
