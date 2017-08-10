@@ -301,7 +301,7 @@ class SshManager(object):
         # log msg before command executed
         LOGGER.trace(' -- '.join([' ----- Run command', host, userSsh, command, txtToAdd]))
 
-        _, stdOut, stdErr = client.exec_command(command, environment=env)
+        _, stdOut, stdErr = client.exec_command(command, environment=env, get_pty=True)
         countAttempts = 0
         stop = False
         maxTime = datetime.now() + timedelta(minutes=timeout)
@@ -574,18 +574,19 @@ class SshManager(object):
         
         try:
             if os.path.isfile(local):
-#                 remoteFile = os.path.join(remoteDir, os.path.basename(local))
-                LOGGER.debug("scpClient.put(%s, %s) to %s@%s", local, remoteDir,
-                         userSsh, host)
+#               remoteFile = os.path.join(remoteDir, os.path.basename(local))
+                LOGGER.debug("scpClient.put(%s, %s) to %s@%s", local, remoteDir,userSsh, host)
                 LOGGER.info("upload from %s to %s" , local, remoteDir)
                 scpClient.put(local, remoteDir)
             elif os.path.isdir(local):
                 self.uploadDir(scpClient, sftp_client, local, remoteDir, host, userSsh, password)
+            else:
+                raise Exception('local path invalid: %s' %(local) )
         except Exception as err:
             LOGGER.error("scpPutDirOrFile error %s", err)
             raise SshManagerError("upload %s to %s error", local, remoteDir)
         finally:
-            self.closeClient(host,user)   
+            self.closeClient(host,user)
         return remoteDir
     
     def getClient(self, host, user=None, pw=None, becomeUser=None, becomePasswd=None, useKey=True):

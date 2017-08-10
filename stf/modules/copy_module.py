@@ -109,7 +109,6 @@ class STFCopyModule(STFBaseModule):
         return rc, output, err
      
     def copyremote(self, src, dst, ip, account, pw, cpmode):
-        
         try:
             if cpmode == "Download":
                 #for dir and file
@@ -189,8 +188,7 @@ class STFCopyModule(STFBaseModule):
                 self.clearEnvLocal()
                 raise STFCopyModuleError("copy moudule error, lab in case file name not coherent with case content")
 
-            self.clearEnvLocal()
-
+        self.clearEnvLocal()
         tp.endtime = time.time()
     
            

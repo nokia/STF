@@ -131,7 +131,11 @@ class STFBaseModule(object):
         else:
             remoteFilePath = remoteFileDir + "/" + filename
         logger.debug("copy file %s to %s %s", localFilePath, remoteNode, remoteFilePath)
-        rc = self.sshManager.scpPut(localFilePath, remoteNode, remoteFilePath, account)
+
+        rc = 1
+        if self.sshManager.scpPut(localFilePath, remoteNode, remoteFilePath, account):
+            rc = 0
+
         return rc, remoteFilePath
  
     def setEnvLocal(self):

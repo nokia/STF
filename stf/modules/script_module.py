@@ -177,20 +177,32 @@ class STFScriptModule(STFBaseModule):
         test_step.addProcess(tp)
         tp.starttime = time.time()
         tp.status = 'running'
+        #user can customized working directory on remote lab
+        remoteFileDir = None
+        try:
+            remoteFileDir = os.environ['ON_LAB_DIR']
+        except:
+            remoteFileDir = '/tmp'
 
         tp.exitcode, remoteScriptPath = self.copyFileToRemote(remoteNode, test_step.path, remoteFileDir, account)
 
         if tp.exitcode != 0:
+            logger.error('copy %s to %s:%s with account %s failed' %(test_step.path, remoteNode, remoteFileDir, account))
             return tp.exitcode
 
         localEnvProfile = self._generateEnvProfile()
         tp.exitcode, remoteEnvProfile = self.copyFileToRemote(remoteNode, localEnvProfile, remoteFileDir, account)
         if tp.exitcode != 0:
+            logger.error('copy %s to %s:%s with account %s failed' % (localEnvProfile, remoteNode, remoteFileDir, account))
             return tp.exitcode
         
         command = "set -a; source " + remoteEnvProfile + "; "+ "chmod +x "+ remoteScriptPath + "; " + remoteScriptPath
         logger.debug("will run command %s on %s as %s", command, remoteNode, account)
         tp.exitcode, tp.stdout, tp.stderr = self.sshManager.run(remoteNode, command, user=account)
+
+        if tp.exitcode != 0:
+            logger.error(tp.stderr)
+
         logger.debug("run command %s on %s as %s, tp.exitcode is %s, output is %s ",
                     command, remoteNode, account, tp.exitcode, tp.stdout + os.linesep + tp.stderr)
 
