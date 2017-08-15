@@ -1,0 +1,57 @@
+#!/bin/bash
+function error
+{
+    echo "Error! $1"
+    exit 1
+}
+function checkRC
+{
+    rc=$1
+    running=$2
+    if [ $rc -ne 0 ];then
+        error "$running failed with return value: $rc"
+    fi
+}
+function installRPM {
+    sudo -E yum -y install CSF-SS7DECODER-devel
+    checkRC $? "sudo yum -y --disablerepo=Artifactory-csf-candidates install CSF-SS7DECODER-devel"
+}
+
+function compileSPA {
+    cd $LAB_HOUSE_DIR/testapp
+    checkRC $? "cd $LAB_HOUSE_DIR/testapp"
+    make clean
+    checkRC $? "make clean"
+    make all
+    checkRC $? "make all"
+}
+
+function decodeMsg {
+    cd $LAB_HOUSE_DIR/testapp
+    checkRC $? "cd $LAB_HOUSE_DIR/testapp"
+    cp -f $LAB_HOUSE_DIR/raw_msg/* ./
+    checkRC $? "cp -f $LAB_HOUSE_DIR/raw_msg/* ./"
+    python conv.py
+    checkRC $? "python conv.py"
+    export LD_LIBRARY_PATH=$(pwd)
+    ./ss7decoderapp -r 10 -t 3 -n 100 -d &
+    checkRC $? "./ss7decoderapp -r 10 -t 3 -n 100 -d &"
+
+    sleep 5
+    for id in $(pgrep ss7decoderapp); do
+        kill -9 $id
+    done
+}
+
+#install yum repo
+sudo cp -f $LAB_HOUSE_DIR/csf_artifactory.repo /etc/yum.repos.d/
+checkRC $? "sudo cp -f $LAB_HOUSE_DIR/csf_artifactory.repo /etc/yum.repos.d/"
+cd $LAB_HOUSE_DIR
+checkRC $? "cd $LAB_HOUSE_DIR"
+tar zxvf testapp.tar.gz
+checkRC $? "tar zxvf testapp.tar.gz"
+installRPM
+compileSPA
+decodeMsg
+
+exit 0

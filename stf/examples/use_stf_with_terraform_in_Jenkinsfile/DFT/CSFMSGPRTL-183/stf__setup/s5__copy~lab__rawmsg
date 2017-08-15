@@ -1,0 +1,4 @@
+upload_files/raw_msg  -> :$LAB_HOUSE_DIR
+upload_files/testapp.tar.gz  -> :$LAB_HOUSE_DIR
+upload_files/results  -> :$LAB_HOUSE_DIR
+upload_files/csf_artifactory.repo -> :$LAB_HOUSE_DIR

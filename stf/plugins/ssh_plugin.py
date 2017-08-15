@@ -124,7 +124,7 @@ class STFSshPlugin(STFBasePlugin):
 
     def prepareCaseSourceList(self, serverInfo):
         """
-        r51.ih.lucent.com:/u/xguan005/test/@@xguan005:mypasswd
+        r51.ih.server.com:/u/gemfield/test/@@gemfield:mypasswd
         """
         remoteInfo = serverInfo.split("@@")[0]
         server = remoteInfo.split(":")[0]

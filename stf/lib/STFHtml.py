@@ -217,9 +217,9 @@ class STFHtmlTableSyle4CSF(STFHtmlTable):
         self.table_row_list.sort(key=lambda x:x['Time'],reverse=True)
 
     def _writeStyleInHtmlHeader(self):
-        self.out('content', '<link rel="stylesheet" href="http://csfci.ih.lucent.com/~csfdev/csf/auto/CSFcommon/lib/jQuery/jquery.mobile-1.4.5.min.css">')
-        self.out('content', '<script src="http://csfci.ih.lucent.com/~csfdev/csf/auto/CSFcommon/lib/jQuery/jquery-1.12.4.min.js"></script>')
-        self.out('content', '<script src="http://csfci.ih.lucent.com/~csfdev/csf/auto/CSFcommon/lib/jQuery/jquery.mobile-1.4.5.min.js"></script>')
+        self.out('content', '<link rel="stylesheet" href="http://csfci.ih.server.com/~csfdev/csf/auto/CSFcommon/lib/jQuery/jquery.mobile-1.4.5.min.css">')
+        self.out('content', '<script src="http://csfci.ih.server.com/~csfdev/csf/auto/CSFcommon/lib/jQuery/jquery-1.12.4.min.js"></script>')
+        self.out('content', '<script src="http://csfci.ih.server.com/~csfdev/csf/auto/CSFcommon/lib/jQuery/jquery.mobile-1.4.5.min.js"></script>')
 
         self.out('open', 'style')
         self.out('content', 'td {')

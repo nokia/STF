@@ -1,0 +1,284 @@
+#! groovy
+import cto.devops.jenkins.Utils
+pipeline {
+    agent { label 'csf/build_rhel7_cpp_jdk8_python_flex' } // Docker image name, used to run container.
+    options {
+    	disableConcurrentBuilds()
+    }
+
+    triggers {
+        gerrit(customUrl: '',
+            gerritProjects: [[
+                branches:
+                    [[compareType: 'ANT',
+                      pattern: '**'  //Trigger on all branches. If you wanna specify one branch, example: compareType: 'PLAIN', pattern: '1.3'
+                    ]],
+                    compareType: 'PLAIN',
+                    disableStrictForbiddenFileVerification: false,
+                    pattern: 'CSF-SS7DECODER'         // NOTE: modify to your own repo name
+            ]],
+            serverName: 'gerrit.app.yourserver.com',
+            triggerOnEvents: [changeMerged(), patchsetCreated(excludeDrafts: true, excludeNoCodeChange: false, excludeTrivialRebase: false)]
+        )
+    }
+
+    parameters {
+        string(defaultValue: 'refs/heads/2.0', description: 'Default is to build 2.0, typically overridden on Gerrit builds', name: 'GERRIT_REFSPEC')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                println new Date()
+                sh 'sudo pip install --upgrade stf'
+                dir('LX') {
+                    checkout scm
+                    sh 'ls -l'
+                }
+                sh 'cp -rf LX SQ'
+                sh 'cp -rf LX COVERAGE'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('LX') {
+                    sh """
+                    make all
+                    """
+                }
+                stash includes: 'LX/rpmbuild/RPMS/x86_64/*.rpm', name: 'ss7decoder_rpms'
+            }
+        }
+
+        stage('SonarQube preview') {
+            environment {
+                GERRIT_LOGIN = credentials("csf-gerrit")
+                CSS7_SONAR_LOGIN = credentials("css7-sonar-gemfield-auth-token")
+            }
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'patchset-created' }
+            steps {
+                dir('SQ') {
+                    withSonarQubeEnv('sonar_coo') {
+                        sh '''
+                            SONAR_LOG_DIR=$(pwd)/sonar_log
+                            build-wrapper-linux-x86-64 --out-dir ${SONAR_LOG_DIR} make all 2>&1
+                            cppcheck -j 8 --enable=all --inconclusive --xml --xml-version=2 . 2> ${SONAR_LOG_DIR}/cppcheck.xml
+                            java -jar /usr/local/lib/sonar-scanner-cli-2.9.0.670.jar -X -e \
+                            -Dsonar.issuesReport.html.enable=true \
+                            -Dsonar.issuesReport.html.location=${SONAR_LOG_DIR} \
+                            -Dsonar.issuesReport.html.name=sonar_report \
+                            -Dsonar.projectName=CSF-SS7DECODER \
+                            -Dsonar.projectVersion=2.1 \
+                            -Dsonar.projectKey=com.nokia.aa.csf:SS7DECODER \
+                            -Dsonar.cfamily.build-wrapper-output=${SONAR_LOG_DIR} \
+                            -Dsonar.cppcheck.reportPath=${SONAR_LOG_DIR}/cppcheck.xml \
+                            -Dsonar.sources=. \
+                            -Dsonar.projectBaseDir=. \
+                            -Dsonar.analysis.mode=preview  \
+                            -Dsonar.issuesReport.console.enable=true \
+                            -Dsonar.login=${CSS7_SONAR_LOGIN} \
+                            -DGERRIT_PROJECT=${GERRIT_PROJECT} \
+                            -DGERRIT_BRANCH=${GERRIT_BRANCH} \
+                            -DGERRIT_CHANGE_ID=${GERRIT_CHANGE_ID} \
+                            -DGERRIT_PATCHSET_REVISION=${GERRIT_PATCHSET_REVISION} \
+                            -DGERRIT_ENABLED=true \
+                            -DGERRIT_VOTE_NO_ISSUE=+1 \
+                            -DGERRIT_VOTE_ISSUE_BELOW_THRESHOLD=+1 \
+                            -DGERRIT_USERNAME=${GERRIT_LOGIN_USR} \
+                            -DGERRIT_PASSWORD=${GERRIT_LOGIN_PSW}
+                        '''
+                    }
+                    publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'sonar_log',
+                        reportFiles: 'sonar_report.html,sonar_report-light.html',
+                        reportName: "Sonar Report"
+                    ])
+                }
+            }
+        }
+        
+        stage('SonarQube publish') {
+            environment {
+                CSS7_SONAR_LOGIN = credentials("css7-sonar-gemfield-auth-token")
+            }
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'change-merged' }
+            steps {
+                dir('SQ') {
+                    withSonarQubeEnv('sonar_coo') {
+                        sh '''
+                            SONAR_LOG_DIR=$(pwd)/sonar_log
+                            build-wrapper-linux-x86-64 --out-dir ${SONAR_LOG_DIR} make all 2>&1
+                            cppcheck -j 8 --enable=all --inconclusive --xml --xml-version=2 . 2> ${SONAR_LOG_DIR}/cppcheck.xml
+                            java -jar /usr/local/lib/sonar-scanner-cli-2.9.0.670.jar -X -e \
+                            -Dsonar.issuesReport.html.enable=true \
+                            -Dsonar.issuesReport.html.location=${SONAR_LOG_DIR} \
+                            -Dsonar.issuesReport.html.name=sonar_report \
+                            -Dsonar.projectName=CSF-SS7DECODER \
+                            -Dsonar.projectVersion=2.1 \
+                            -Dsonar.projectKey=com.nokia.aa.csf:SS7DECODER \
+                            -Dsonar.cfamily.build-wrapper-output=${SONAR_LOG_DIR} \
+                            -Dsonar.cppcheck.reportPath=${SONAR_LOG_DIR}/cppcheck.xml \
+                            -Dsonar.sources=. \
+                            -Dsonar.projectBaseDir=. \
+                            -Dsonar.analysis.mode=publish  \
+                            -Dsonar.issuesReport.console.enable=true \
+                            -Dsonar.login=${CSS7_SONAR_LOGIN}
+                        '''
+                    }
+                    publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'sonar_log',
+                        reportFiles: 'sonar_report.html,sonar_report-light.html',
+                        reportName: "Sonar Report"
+                    ])
+                }
+            }
+        }
+
+        stage('UT') {
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'patchset-created' }
+            steps {
+                println "NOTE: start to do unit test"
+                dir('LX/UT') {
+                    sh '''
+                        ./TcapTestingMain --gtest_output=xml:ut1.xml
+                        ./APITestingMain --gtest_output=xml:ut2.xml
+                        ./SccpTestingMain --gtest_output=xml:ut3.xml
+                    '''
+                    junit allowEmptyResults: true, testResults: 'ut*.xml'
+                }
+            }
+        }
+
+        stage('Coverage') {
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'patchset-created' }
+            steps {
+                dir('COVERAGE') {
+                    sh """
+                    stf gcov -b make all
+                    UT/TcapTestingMain
+                    UT/APITestingMain
+                    UT/SccpTestingMain
+
+                    mkdir gcov_report
+                    gcovr -r . --exclude=UT --exclude=compiler --exclude=googletest --exclude=include \
+                     --exclude src/map/ --exclude src/EDBase/ --exclude src/base/ --exclude src/bedl/ \
+                     --exclude src/log/ --exclude src/tcap/ --html --html-details -o gcov_report/gcov_report.html
+                    """
+                    publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'gcov_report',
+                        reportFiles: 'gcov_report.html',
+                        reportName: "Coverage Report"
+                    ])
+                }
+            }
+        }
+
+        stage('DFT') {
+            agent { label 'csf/terraform_ansible_radish' }
+            environment {
+                ARTIFACTORY_BUILD_LOGIN = credentials("csf-jenkins-for-artifactory")
+                OS_ACCESS = credentials("v1445_CSF")
+            }
+
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'change-merged' }
+            steps {
+                println "NOTE: start to do long time test"
+                dir('LX') {
+                    checkout scm
+                    sh 'ls -l'
+                }
+                dir('LX/DFT'){
+                    sh '''
+                    # install terraform plugins
+                    export PLUGINS=/opt/.terraform/plugins/linux_amd64/
+                    terraform init -plugin-dir=$PLUGINS -var os_username=${OS_ACCESS_USR} -var os_password=${OS_ACCESS_PSW} ss7lab
+                    terraform plan -var os_username=${OS_ACCESS_USR} -var os_password=${OS_ACCESS_PSW} ss7lab
+                    
+                    # generate stf.ini file here
+                    terraform apply -var os_username=${OS_ACCESS_USR} -var os_password=${OS_ACCESS_PSW} ss7lab
+                    
+                    # for sshd service startup
+                    sleep 60
+                    
+                    # for yum index take effect, 0 ~ 300 seconds
+                    # sleep 60
+                    
+                    # generate bdd feature files in $PWD/radish/features directory
+                    stf test --bdd -i stf.ini -c CSFMSGPRTL-183/
+                    
+                    # run test cases and generate cucumber json file
+                    radish -e -t --write-ids  --cucumber-json stf_bdd_test_result.json --bdd-xml stf_bdd_test_result.xml radish/features
+
+                    '''
+                    //publish report with cucumber plugin
+                    cucumber 'stf_bdd_test_result.json'
+                    
+                    //comment the legacy one
+                    //junit allowEmptyResults: true, testResults: 'testcase_reports/**'
+                }
+            }
+            post {
+                always {
+                    dir('LX/DFT'){
+                        sh '''
+                        echo yes | terraform destroy -var os_username=${OS_ACCESS_USR} -var os_password=${OS_ACCESS_PSW} ss7lab
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Publish to inprogress') {
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'patchset-created' }
+            steps {
+                script {
+                    def server = Artifactory.newServer url: env.ARTIFACTORY_HTTPS_URL, credentialsId: 'csf-jenkins-for-artifactory'
+                    def uploadSpec = """{
+                                    "files": [
+                                            {
+                                                "pattern": "LX/rpmbuild/RPMS/x86_64/*.rpm",
+                                                "target": "csf-yum-inprogress/CSS7/"
+                                            }
+                                        ]
+                                    }"""
+                    def buildInfo = Artifactory.newBuildInfo()
+                    buildInfo.env.capture = true
+                    buildInfo.env.collect()
+                    server.upload(uploadSpec)
+                    server.publishBuildInfo(buildInfo)
+                }
+            }
+        }
+        stage('Publish to candidate') {
+            when { environment name: 'GERRIT_EVENT_TYPE', value: 'change-merged' }
+            steps {
+                script {
+                    def server = Artifactory.newServer url: env.ARTIFACTORY_HTTPS_URL, credentialsId: 'csf-jenkins-for-artifactory'
+                    def uploadSpec = """{
+                                    "files": [
+                                            {
+                                                "pattern": "LX/rpmbuild/RPMS/x86_64/*.rpm",
+                                                "target": "csf-yum-candidates/CSS7/"
+                                            }
+                                        ]
+                                    }"""
+                    def buildInfo = Artifactory.newBuildInfo()
+                    buildInfo.env.capture = true
+                    buildInfo.env.collect()
+                    server.upload(uploadSpec)
+                    server.publishBuildInfo(buildInfo)
+                }
+            }
+        }
+    }
+}
