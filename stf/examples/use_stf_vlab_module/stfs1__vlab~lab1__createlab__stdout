@@ -1,0 +1,29 @@
+[Vlab]
+OS_AUTH_URL = http://ip:5000/v2.0
+OS_TENANT_ID = 04564f3e67844800ae87f7d2540c812a
+OS_TENANT_NAME = v1445
+
+OS_PROJECT_NAME = v1445
+
+OS_USERNAME = user
+OS_PASSWORD = pass
+
+OS_REGION_NAME = regionOne
+
+
+[Vlab:gemfieldServer66]
+count = 2
+flavor = m1.medium
+image = rhel-guest-image-7.3-35.x86_64.qcow2
+security-group = default
+network = v1445
+login = cloud-init
+
+
+[Vlab:gemfieldServer77]
+count = 1
+flavor = m1.medium
+image = rhel-guest-image-7.3-35.x86_64.qcow2
+security-group = default
+network = v1445
+login = cloud-init
