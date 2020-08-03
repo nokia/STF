@@ -77,3 +77,8 @@ stf gcov -b make all
 ```
 
 
+
+
+## License
+
+This project is licensed under the Apache-2.0 license - see the [LICENSE](https://github.com/nokia/STF/blob/master/LICENSE).
